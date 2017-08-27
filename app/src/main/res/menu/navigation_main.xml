@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+
+    <group>
+        <item
+            android:id="@+id/navigation_remove_ads"
+            android:icon="@drawable/ic_remove_ads"
+            android:title="Remove Ads" />
+        <item
+            android:id="@+id/navigation_info"
+            android:icon="@drawable/ic_info"
+            android:title="Privacy Policy" />
+        <item
+            android:id="@+id/navigation_share"
+            android:icon="@drawable/ic_share"
+            android:title="Share App" />
+        <item
+            android:id="@+id/navigation_vote"
+            android:icon="@drawable/ic_menu_rating"
+            android:title="Review and rating" />
+    </group>
+
+</menu>
