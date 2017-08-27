@@ -9,8 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import minh095.braintraining.R;
 import minh095.braintraining.activity.base.BaseActivity;
 
@@ -27,11 +29,23 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Brain training");
+        setTitle(getString(R.string.app_name));
         setUpDrawer();
 
 
+    }
 
+    @OnClick({R.id.btnGameFreakingMath, R.id.btnGameTrueFalse})
+    public void eventClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnGameFreakingMath:
+                Toast.makeText(this, "Freaking", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btnGameTrueFalse:
+                Toast.makeText(this, "True false", Toast.LENGTH_SHORT).show();
+
+                break;
+        }
     }
 
     private void setUpDrawer() {
@@ -51,20 +65,4 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
