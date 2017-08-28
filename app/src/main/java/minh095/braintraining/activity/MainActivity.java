@@ -37,9 +37,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.btnGameTrueFalse:
                 nextIntent = new Intent(this, TrueFalseActivity.class);
-
                 break;
-
         }
         startActivity(nextIntent);
     }
