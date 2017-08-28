@@ -17,6 +17,7 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.drawer_main)
     DrawerLayout drawerMain;
+
     @BindView(R.id.navigation_main)
     NavigationView navigationView;
 
@@ -24,6 +25,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle(getString(R.string.app_name));
         setUpDrawer();
     }
 
@@ -44,8 +46,7 @@ public class MainActivity extends BaseActivity {
 
 
     private void setUpDrawer() {
-        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerMain, getToolBar(),
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerMain, getToolBar(), R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerMain.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

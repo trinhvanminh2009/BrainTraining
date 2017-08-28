@@ -20,9 +20,7 @@ public class BaseActivity extends AppCompatActivity {
     @BindView(R.id.toolBar)
     Toolbar toolBar;
 
-    public Toolbar getToolBar()
-    {
-        setSupportActionBar(toolBar);
+    public Toolbar getToolBar() {
         return toolBar;
     }
 
@@ -30,11 +28,14 @@ public class BaseActivity extends AppCompatActivity {
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         unbinder = ButterKnife.bind(this);
-        setTitle(getString(R.string.app_name));
-
-
+        setSupportActionBar(toolBar);
     }
 
+    public void enableBackButton() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
 
     @Override
     protected void onDestroy() {
