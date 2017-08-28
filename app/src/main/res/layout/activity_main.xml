@@ -11,8 +11,13 @@
         android:layout_height="wrap_content">
 
 
-        <include layout="@layout/toolbar"
-            android:id="@+id/toolBar"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/AppTheme.NoActionBar.AppBarOverlay"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
     </android.support.design.widget.AppBarLayout>
@@ -27,21 +32,22 @@
 
 
         <LinearLayout
-            android:orientation="vertical"
             android:id="@+id/containerMain"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-            <Button
-                android:layout_width="match_parent"
-                android:id="@+id/btnGameTrueFalse"
-                android:text="@string/tv_game_true_false"
-                android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <Button
+                android:id="@+id/btnGameTrueFalse"
                 android:layout_width="match_parent"
-                android:text="@string/tv_game_quick_math"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_game_true_false" />
+
+            <Button
                 android:id="@+id/btnGameFreakingMath"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_game_quick_math" />
         </LinearLayout>
 
 
