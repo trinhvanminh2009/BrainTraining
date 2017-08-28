@@ -5,4 +5,11 @@
     <string name="title_activity_list">ListActivity</string>
     <string name="tv_game_true_false">True / False</string>
     <string name="tv_game_quick_math">Quick Math</string>
+    <string name="easy">Easy</string>
+    <string name="normal">Normal</string>
+    <string name="hard">Hard</string>
+    <string name="addition">+</string>
+    <string name="subtraction">-</string>
+    <string name="multiplication">*</string>
+    <string name="division">/</string>
 </resources>

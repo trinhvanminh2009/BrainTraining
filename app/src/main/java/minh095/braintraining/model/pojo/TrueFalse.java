@@ -9,18 +9,41 @@ import java.util.ArrayList;
 public class TrueFalse {
     private int numberX;
     private int numberY;
-    private ArrayList<String>listLevel;
+    private String operator;
     private int result;
+    private String level;
+    private boolean trueOrFalse;
 
-    public TrueFalse(int numberX, int numberY, ArrayList<String> listLevel, int result) {
+    public TrueFalse(int numberX, int numberY, String operator, int result, String level) {
         this.numberX = numberX;
         this.numberY = numberY;
-        this.listLevel = listLevel;
+        this.operator = operator;
         this.result = result;
+        this.level = level;
     }
 
-    public ArrayList<String> getListLevel() {
-        return listLevel;
+    public boolean isTrueOrFalse() {
+        return trueOrFalse;
+    }
+
+    public void setTrueOrFalse(boolean trueOrFalse) {
+        this.trueOrFalse = trueOrFalse;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public int getNumberX() {
