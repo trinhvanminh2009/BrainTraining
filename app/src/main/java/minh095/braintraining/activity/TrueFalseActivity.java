@@ -1,5 +1,6 @@
 package minh095.braintraining.activity;
 
+import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -142,6 +143,40 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                 break;
         }
     }
+    android.support.v7.app.AlertDialog alertDialogResultGame;
 
+    public void showDialogResultGame() {
+        android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(this);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.dialog_result_game, null);
+        dialogBuilder.setView(dialogView);
 
+        if (alertDialogResultGame == null) {
+            dialogView.findViewById(R.id.btnGoToMenu).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(TrueFalseActivity.this, "Go menu", Toast.LENGTH_SHORT).show();
+                }
+            });
+            dialogView.findViewById(R.id.btnRestartGame).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(TrueFalseActivity.this, "Restart game", Toast.LENGTH_SHORT).show();
+                }
+            });
+            alertDialogResultGame = dialogBuilder.create();
+            alertDialogResultGame.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+
+                }
+            });
+            alertDialogResultGame.setCanceledOnTouchOutside(false);
+            if (alertDialogResultGame.getWindow() != null) {
+                alertDialogResultGame.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            }
+        }
+
+        alertDialogResultGame.show();
+    }
 }
