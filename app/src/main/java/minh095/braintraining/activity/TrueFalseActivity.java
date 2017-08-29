@@ -1,12 +1,17 @@
 package minh095.braintraining.activity;
 
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 
 import butterknife.OnClick;
+
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
