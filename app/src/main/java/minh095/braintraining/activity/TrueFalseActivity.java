@@ -28,7 +28,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
     @BindView(R.id.tvQuestion)
     TextView tvQuestion;
 
-    public static final int TIME_OF_GAME = 6 * 1000;
+    public static final int TIME_OF_GAME = 3 * 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
