@@ -6,29 +6,18 @@ import butterknife.OnClick;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import minh095.braintraining.R;
 import minh095.braintraining.activity.base.BaseActivityNoToolbar;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.Toast;
-import java.util.ArrayList;
+
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-import minh095.braintraining.R;
-import minh095.braintraining.activity.base.BaseActivity;
 import minh095.braintraining.model.ModelTrueFalse;
 import minh095.braintraining.model.pojo.TrueFalse;
 
@@ -36,8 +25,8 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
 
     @BindView(R.id.pb_loading)
     ProgressBar progressBar;
-    @BindView(R.id.txtOperator)
-    TextView txtOperator;
+    @BindView(R.id.tvQuestion)
+    TextView tvQuestion;
 
     public static final int TIME_OF_GAME = 6 * 1000;
 
@@ -76,14 +65,15 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                     setProgressMax(100);
                     startProgressAnimate(0);
                     List<TrueFalse>trueFalseList ;
-                    ModelTrueFalse modelTrueFalse = new ModelTrueFalse(getApplicationContext());
-                    trueFalseList =  modelTrueFalse.randomTrueFalse(10);
+
+                    trueFalseList =  ModelTrueFalse.randomTrueFalse(30,getApplicationContext());
                     for(int i = 0; i < trueFalseList.size(); i++)
                     {
-
-                        txtOperator.setText(trueFalseList.get(i).getNumberX() + " " + trueFalseList.get(i).getOperator() + " " +
-                                trueFalseList.get(i).getNumberY() + " = " + trueFalseList.get(i).getResult());
-
+                        if(tvQuestion != null)
+                        {
+                            tvQuestion.setText(trueFalseList.get(i).getNumberX() + " " + trueFalseList.get(i).getOperator() + " " +
+                                    trueFalseList.get(i).getNumberY() + " = " + trueFalseList.get(i).getResult());
+                        }
 
                     }
                 }

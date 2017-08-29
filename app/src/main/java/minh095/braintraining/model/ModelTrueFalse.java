@@ -15,13 +15,7 @@ import minh095.braintraining.model.pojo.TrueFalse;
 
 public class ModelTrueFalse {
 
-    private Context context;
-    public ModelTrueFalse(Context context){
-        //Add context to get String from string.xml
-        this.context = context;
-    }
-
-    public List<TrueFalse> randomTrueFalse(int currentSore){
+    public static List<TrueFalse> randomTrueFalse(int currentSore, Context context){
         ArrayList<String>levelList = new ArrayList<>();
         ArrayList<String>operatorsEasyList = new ArrayList<>();
         ArrayList<String>operatorsNormalList = new ArrayList<>();
@@ -31,6 +25,7 @@ public class ModelTrueFalse {
 
         operatorsEasyList.add(context.getResources().getString(R.string.addition));
         operatorsEasyList.add(context.getResources().getString(R.string.subtraction));
+
 
         operatorsNormalList.add(context.getResources().getString(R.string.addition));
         operatorsNormalList.add(context.getResources().getString(R.string.subtraction));
@@ -232,7 +227,7 @@ public class ModelTrueFalse {
 
     /**This function to make sure list true/false balance
      * */
-    private List<TrueFalse> balanceTrueFalse(List<TrueFalse>trueFalseList, int currentScore)
+    private static List<TrueFalse> balanceTrueFalse(List<TrueFalse>trueFalseList, int currentScore)
     {
 
         List<TrueFalse>resultList = new ArrayList<>();
