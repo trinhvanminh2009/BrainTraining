@@ -21,11 +21,6 @@ public class BaseActivityNoToolbar extends AppCompatActivity {
         unbinder = ButterKnife.bind(this);
     }
 
-    public void enableBackButton() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-    }
 
     @Override
     protected void onDestroy() {
