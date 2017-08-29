@@ -16,8 +16,6 @@ import minh095.braintraining.R;
 public class BaseActivity extends AppCompatActivity {
 
     Unbinder unbinder;
-
-
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);

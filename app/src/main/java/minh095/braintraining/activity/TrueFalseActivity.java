@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -36,17 +37,20 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
     @BindView(R.id.pb_loading)
     ProgressBar progressBar;
 
+    @BindView(R.id.txtOperator)
+    TextView txtOperator;
+
     public static final int TIME_OF_GAME = 6 * 1000;
 
-   /* @BindView(R.id.btnTest)
-    Button btnTest;*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_true_false);
-
         setProgressMax(100);
+        handleRandom();
         startProgressAnimate(0);
+
+
 
     }
 
@@ -72,6 +76,17 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                 public void onAnimationEnd(Animator animation) {
                     setProgressMax(100);
                     startProgressAnimate(0);
+                    List<TrueFalse>trueFalseList ;
+                    ModelTrueFalse modelTrueFalse = new ModelTrueFalse(getApplicationContext());
+                    trueFalseList =  modelTrueFalse.randomTrueFalse(10);
+                    for(int i = 0; i < trueFalseList.size(); i++)
+                    {
+
+                        txtOperator.setText(trueFalseList.get(i).getNumberX() + " " + trueFalseList.get(i).getOperator() + " " +
+                                trueFalseList.get(i).getNumberY() + " = " + trueFalseList.get(i).getResult());
+
+
+                    }
                 }
 
                 @Override
@@ -88,22 +103,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
         }
 
     }
-/*
-    @OnClick(R.id.btnTest)
-    public void Test()
-    {
-        ModelTrueFalse modelTrueFalse = new ModelTrueFalse(this);
-        List<TrueFalse> trueFalseList;
-        trueFalseList = modelTrueFalse.RandomTrueFalse(44);
-        for(int i = 0 ; i < trueFalseList.size(); i++)
-        {
-            Toast.makeText(this, trueFalseList.get(i).getNumberX() + " "+trueFalseList.get(i).getOperator() + " "+ trueFalseList.get(i).getNumberY() +" = " +
-                    trueFalseList.get(i).getResult() + " " + trueFalseList.get(i).isTrueOrFalse()  + " Size "+ trueFalseList.size(), Toast.LENGTH_SHORT).show();
-        }
-
-
-
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -115,6 +114,10 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
         return super.onOptionsItemSelected(item);
     }
 
+    public void handleRandom()
+    {
+
+    }
 
     @OnClick({R.id.btnFalse, R.id.btnTrue})
     public void eventClick(View v) {

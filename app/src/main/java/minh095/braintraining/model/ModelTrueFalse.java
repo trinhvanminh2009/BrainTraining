@@ -1,11 +1,8 @@
 package minh095.braintraining.model;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -24,7 +21,7 @@ public class ModelTrueFalse {
         this.context = context;
     }
 
-    public List<TrueFalse> RandomTrueFalse(int currentSore){
+    public List<TrueFalse> randomTrueFalse(int currentSore){
         ArrayList<String>levelList = new ArrayList<>();
         ArrayList<String>operatorsEasyList = new ArrayList<>();
         ArrayList<String>operatorsNormalList = new ArrayList<>();
@@ -203,11 +200,11 @@ public class ModelTrueFalse {
             }
 
         }
-        trueFalseList = BalanceTrueFalse(trueFalseList,currentSore);
+        trueFalseList = balanceTrueFalse(trueFalseList,currentSore);
         return trueFalseList;
     }
 
-    private int CountTrue(List<TrueFalse>trueFalseList)
+    private int countTrue(List<TrueFalse>trueFalseList)
     {
         int count = 0;
         for(int i = 0 ; i<trueFalseList.size() ; i++)
@@ -220,7 +217,7 @@ public class ModelTrueFalse {
         return count;
     }
 
-    private int CountFalse(List<TrueFalse>trueFalseList)
+    private int countFalse(List<TrueFalse>trueFalseList)
     {
         int count = 0;
         for(int i = 0 ; i<trueFalseList.size() ; i++)
@@ -235,7 +232,7 @@ public class ModelTrueFalse {
 
     /**This function to make sure list true/false balance
      * */
-    private List<TrueFalse>BalanceTrueFalse(List<TrueFalse>trueFalseList, int currentScore)
+    private List<TrueFalse> balanceTrueFalse(List<TrueFalse>trueFalseList, int currentScore)
     {
 
         List<TrueFalse>resultList = new ArrayList<>();
