@@ -2,6 +2,7 @@ package minh095.braintraining.activity;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 
@@ -33,6 +34,8 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
     @BindView(R.id.tvQuestion)
     TextView tvQuestion;
 
+    private int currentCheck = -1;
+
     public static final int TIME_OF_GAME = 3 * 1000;
 
     @Override
@@ -42,9 +45,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
         setProgressMax(100);
         handleRandom();
         startProgressAnimate(0);
-
-
-
     }
 
     private void setProgressMax(int max) {
@@ -62,25 +62,43 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
             animation.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    setProgressMax(100);
-                    startProgressAnimate(0);
                     List<TrueFalse>trueFalseList ;
-
                     trueFalseList =  ModelTrueFalse.randomTrueFalse(30,getApplicationContext());
                     for(int i = 0; i < trueFalseList.size(); i++)
                     {
                         if(tvQuestion != null)
                         {
                             tvQuestion.setText(trueFalseList.get(i).getNumberX() + " " + trueFalseList.get(i).getOperator() + " " +
-                                    trueFalseList.get(i).getNumberY() + " = " + trueFalseList.get(i).getResult());
+                                    trueFalseList.get(i).getNumberY() + " = " + trueFalseList.get(i).getResult() + " "+trueFalseList.get(i).isTrueOrFalse());
+                            if(currentCheck != -1)
+                            {
+                                if(currentCheck == 0 &&  !trueFalseList.get(i).isTrueOrFalse())
+                                {
+                                    Log.e("0", " "+ !trueFalseList.get(i).isTrueOrFalse());
+                                }
+                                if(currentCheck == 0 &&  trueFalseList.get(i).isTrueOrFalse())
+                                {
+                                    Log.e("0", " "+ !trueFalseList.get(i).isTrueOrFalse());
+                                }
+                                if(currentCheck == 1 &&  trueFalseList.get(i).isTrueOrFalse() == false)
+                                {
+                                    Log.e("1", " "+ !trueFalseList.get(i).isTrueOrFalse());
+                                }
+                                if(currentCheck == 1 &&  trueFalseList.get(i).isTrueOrFalse() == true)
+                                {
+                                    Log.e("1", " "+ !trueFalseList.get(i).isTrueOrFalse());
+                                }
+                            }
                         }
-
+                        currentCheck = -1;
                     }
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    setProgressMax(100);
+                    startProgressAnimate(0);
+
                 }
 
                 @Override
@@ -116,13 +134,14 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
     @OnClick({R.id.btnFalse, R.id.btnTrue})
     public void eventClick(View v) {
         switch (v.getId()) {
-
             case R.id.btnFalse:
-                Toast.makeText(this, "false", Toast.LENGTH_SHORT).show();
+                currentCheck = 0;
                 break;
             case R.id.btnTrue:
-                Toast.makeText(this, "true", Toast.LENGTH_SHORT).show();
+                currentCheck =1;
                 break;
         }
     }
+
+
 }
