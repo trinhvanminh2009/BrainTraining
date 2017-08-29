@@ -3,17 +3,14 @@ package minh095.braintraining.activity.base;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.View;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import minh095.braintraining.R;
 
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivityNoToolbar extends AppCompatActivity {
 
     Unbinder unbinder;
 
@@ -24,6 +21,11 @@ public class BaseActivity extends AppCompatActivity {
         unbinder = ButterKnife.bind(this);
     }
 
+    public void enableBackButton() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
 
     @Override
     protected void onDestroy() {

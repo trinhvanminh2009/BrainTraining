@@ -3,6 +3,7 @@
 
     <color name="colorPrimary">#03A9F4</color>
     <color name="colorPrimaryDark">#0288D1</color>
+    <color name="colorPrimaryDarkEnd">#01579B</color>
     <color name="primary_light">#B3E5FC</color>
     <color name="colorAccent">#FF5722</color>
     <color name="primary_text">#212121</color>
@@ -14,4 +15,7 @@
 
 
     <color name="colorHighLight">#B6B6B6</color>
+
+    <color name="red500">#F44336</color>
+    <color name="green500">#4CAF50</color>
 </resources>

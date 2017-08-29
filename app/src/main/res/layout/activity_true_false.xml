@@ -7,19 +7,73 @@
     tools:context="minh095.braintraining.activity.TrueFalseActivity">
 
 
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolBar"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:theme="@style/AppTheme.NoActionBar.AppBarOverlay"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            >
+
+            <LinearLayout
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ProgressBar
+                    android:id="@+id/pb_loading"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:indeterminate="false"
+                    android:progressDrawable="@drawable/custom_progress_gsb" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="30 - 20 = 10"
+                    android:textColor="@color/primary_text"
+                    android:textSize="60sp" />
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:paddingBottom="32dp"
+            android:weightSum="2">
 
 
-    </android.support.design.widget.AppBarLayout>
+            <at.markushi.ui.CircleButton
+                android:id="@+id/btnFalse"
+                android:layout_width="96dip"
+                android:layout_height="96dip"
+                android:layout_weight="1"
+                android:src="@drawable/ic_false"
+                app:cb_color="@color/red500"
+                app:cb_pressedRingWidth="8dip" />
+
+            <at.markushi.ui.CircleButton
+                android:id="@+id/btnTrue"
+                android:layout_width="96dip"
+                android:layout_height="96dip"
+                android:layout_weight="1"
+                android:src="@drawable/ic_true"
+                app:cb_color="@color/green500"
+                app:cb_pressedRingWidth="8dip" />
+        </LinearLayout>
+
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

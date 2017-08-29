@@ -5,15 +5,14 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.MenuItem;
 import android.view.View;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import minh095.braintraining.R;
-import minh095.braintraining.activity.base.BaseActivity;
+import minh095.braintraining.activity.base.BaseActivityWithToolbar;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivityWithToolbar {
 
     @BindView(R.id.drawer_main)
     DrawerLayout drawerMain;
@@ -49,7 +48,7 @@ public class MainActivity extends BaseActivity {
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerMain, getToolBar(), R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerMain.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+/*        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                                                              @Override
                                                              public boolean onNavigationItemSelected(MenuItem item) {
                                                                  switch (item.getItemId()) {
@@ -58,7 +57,7 @@ public class MainActivity extends BaseActivity {
                                                                  return true;
                                                              }
                                                          }
-        );
+        );*/
     }
 
 
