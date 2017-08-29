@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +40,11 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
     @BindView(R.id.pb_loading)
     ProgressBar progressBar;
 
+<<<<<<< HEAD
     @BindView(R.id.txtOperator)
     TextView txtOperator;
+=======
+>>>>>>> 72e2b95f23e0f3c766b32646b55ae2c8788f435c
 
     public static final int TIME_OF_GAME = 6 * 1000;
 
