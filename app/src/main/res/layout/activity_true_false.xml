@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_game"
     android:orientation="vertical"
     tools:context="minh095.braintraining.activity.TrueFalseActivity">
 
@@ -29,19 +30,46 @@
                     android:id="@+id/pb_loading"
                     style="@android:style/Widget.ProgressBar.Horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.8"
                     android:indeterminate="false"
                     android:progressDrawable="@drawable/custom_progress_gsb" />
 
                 <TextView
+                    android:id="@+id/tvScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/background_score"
+                    android:gravity="center"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="5"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="32sp" />
+
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="30 - 20 = 10"
-                    android:textColor="@color/primary_text"
-                    android:textSize="60sp" />
+                    android:layout_weight="9.5">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:paddingBottom="16dp"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:paddingTop="16dp"
+                        android:text="15 / 5 = 3"
+                        android:textColor="@color/primary_text"
+                        android:textSize="60sp" />
+                </FrameLayout>
+
+
             </LinearLayout>
 
         </FrameLayout>
