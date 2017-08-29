@@ -1,5 +1,7 @@
 package minh095.braintraining.activity;
 
+import android.content.DialogInterface;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 
 import butterknife.OnClick;
@@ -120,4 +122,10 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                 break;
         }
     }
+
+
+
+    android.support.v7.app.AlertDialog alertDialogResultGame;
+
+
 }
