@@ -139,16 +139,16 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
 
         switch (v.getId()) {
             case R.id.btnFalse:
-                if (trueFalseList.get(currentIndex).isTrueOrFalse() == false) {
+                if (!trueFalseList.get(currentIndex).isTrueOrFalse()) {
                     setProgressMax(100);
                     startProgressAnimate(0);
                     Log.e("false", "false");
                     currentCheck = true;
                     score++;
-                    tvScore.setText(" " + score);
+                    tvScore.setText(String.valueOf(score));
                     break;
                 }
-                if (trueFalseList.get(currentIndex).isTrueOrFalse() == true) {
+                if (trueFalseList.get(currentIndex).isTrueOrFalse()) {
                     Log.e("false", "true");
                     showDialogResultGame();
                     Log.e("Show", "Show in false");
@@ -157,16 +157,16 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                 }
                 break;
             case R.id.btnTrue:
-                if (trueFalseList.get(currentIndex).isTrueOrFalse() == true) {
+                if (trueFalseList.get(currentIndex).isTrueOrFalse()) {
                     setProgressMax(100);
                     startProgressAnimate(0);
                     currentCheck = true;
                     score++;
                     Log.e("Show", "Show in true");
-                    tvScore.setText(" " + score);
+                    tvScore.setText(String.valueOf(score));
                     break;
                 }
-                if (trueFalseList.get(currentIndex).isTrueOrFalse() == false) {
+                if (!trueFalseList.get(currentIndex).isTrueOrFalse()) {
                     showDialogResultGame();
                     Log.e("Show", "Show in true");
                     currentCheck = false;
@@ -214,7 +214,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                 trueFalseList.get(currentIndex).getNumberY() + " = " + result
         );
 
-        tvCurrentScore.setText(" " + score);
+        tvCurrentScore.setText(String.valueOf(score));
 
         if (alertDialogResultGame == null) {
             dialogView.findViewById(R.id.btnGoToMenu).setOnClickListener(new View.OnClickListener() {
