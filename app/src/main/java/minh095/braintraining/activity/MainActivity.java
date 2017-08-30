@@ -33,8 +33,6 @@ public class MainActivity extends BaseActivityWithToolbar {
     }
 
 
-
-
     @OnClick({R.id.btnGameFreakingMath, R.id.btnGameTrueFalse})
     public void eventClick(View v) {
         Intent nextIntent = null;

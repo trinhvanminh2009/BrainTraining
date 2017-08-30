@@ -1,6 +1,9 @@
 package minh095.braintraining.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.nfc.Tag;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,15 +18,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.load.engine.Resource;
 
 import butterknife.BindView;
 import minh095.braintraining.R;
 import minh095.braintraining.activity.base.BaseActivityNoToolbar;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.Timer;
 
 import minh095.braintraining.model.ModelTrueFalse;
 import minh095.braintraining.model.pojo.TrueFalse;
@@ -32,20 +41,30 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
 
     @BindView(R.id.pb_loading)
     ProgressBar progressBar;
+
     @BindView(R.id.tvQuestion)
     TextView tvQuestion;
 
-    private int currentCheck = -1;
+    @BindView(R.id.tvScore)
+    TextView tvScore;
 
-    public static final int TIME_OF_GAME = 3 * 1000;
+    private int currentCheck = -1;
+    private int score = 0;
+    public static final int TIME_OF_GAME = 6 * 1000;
+
+    Random random = new Random();
+    List<TrueFalse> trueFalseList = new ArrayList<>();
+    int currentIndex = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_true_false);
         setProgressMax(100);
-        handleRandom();
         startProgressAnimate(0);
+
+
     }
 
     private void setProgressMax(int max) {
@@ -55,50 +74,34 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
         }
     }
 
-    private void startProgressAnimate(int progressTo) {
-        if(progressBar!=null) {
+    private void startProgressAnimate(final int progressTo) {
+        if (progressBar != null) {
+
             ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", progressBar.getProgress(), progressTo * 100);
             animation.setDuration(TIME_OF_GAME);
             animation.setInterpolator(new DecelerateInterpolator());
+
             animation.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
-                    List<TrueFalse>trueFalseList ;
-                    trueFalseList =  ModelTrueFalse.randomTrueFalse(30,getApplicationContext());
-                    for(int i = 0; i < trueFalseList.size(); i++)
-                    {
-                        if(tvQuestion != null)
-                        {
-                            tvQuestion.setText(trueFalseList.get(i).getNumberX() + " " + trueFalseList.get(i).getOperator() + " " +
-                                    trueFalseList.get(i).getNumberY() + " = " + trueFalseList.get(i).getResult() + " "+trueFalseList.get(i).isTrueOrFalse());
-                            if(currentCheck != -1)
-                            {
-                                if(currentCheck == 0 &&  !trueFalseList.get(i).isTrueOrFalse())
-                                {
-                                    Log.e("0", " "+ !trueFalseList.get(i).isTrueOrFalse());
-                                }
-                                if(currentCheck == 0 &&  trueFalseList.get(i).isTrueOrFalse())
-                                {
-                                    Log.e("0", " "+ !trueFalseList.get(i).isTrueOrFalse());
-                                }
-                                if(currentCheck == 1 &&  trueFalseList.get(i).isTrueOrFalse() == false)
-                                {
-                                    Log.e("1", " "+ !trueFalseList.get(i).isTrueOrFalse());
-                                }
-                                if(currentCheck == 1 &&  trueFalseList.get(i).isTrueOrFalse() == true)
-                                {
-                                    Log.e("1", " "+ !trueFalseList.get(i).isTrueOrFalse());
-                                }
-                            }
-                        }
-                        currentCheck = -1;
-                    }
+
+                    trueFalseList = ModelTrueFalse.randomTrueFalse(5, getApplicationContext());
+                    int index = random.nextInt(trueFalseList.size());
+                    currentIndex = index;
+                    tvQuestion.setText(trueFalseList.get(index).getNumberX() + " " +
+                            trueFalseList.get(index).getOperator() + " " +
+                            trueFalseList.get(index).getNumberY() + " = " +
+                            trueFalseList.get(index).getResult());
+                    currentCheck = -1;
                 }
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    setProgressMax(100);
-                    startProgressAnimate(0);
+
+                    if (currentCheck == -1) {
+                        showDialogResultGame();
+                    }
+                    Log.e("Show", " " + currentCheck);
 
                 }
 
@@ -111,8 +114,10 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                 public void onAnimationRepeat(Animator animation) {
 
                 }
+
             });
             animation.start();
+
         }
 
     }
@@ -127,22 +132,50 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
         return super.onOptionsItemSelected(item);
     }
 
-    public void handleRandom()
-    {
-
-    }
 
     @OnClick({R.id.btnFalse, R.id.btnTrue})
     public void eventClick(View v) {
+
+
         switch (v.getId()) {
             case R.id.btnFalse:
-                currentCheck = 0;
+                if (trueFalseList.get(currentIndex).isTrueOrFalse() == false) {
+                    setProgressMax(100);
+                    startProgressAnimate(0);
+                    Log.e("false", "false");
+                    currentCheck = 0;
+                    score++;
+                    tvScore.setText(" " + score);
+                    break;
+                }
+                if (trueFalseList.get(currentIndex).isTrueOrFalse() == true) {
+                    Log.e("false", "true");
+                    showDialogResultGame();
+                    Log.e("Show", "Show in false");
+                    currentCheck = 0;
+                    break;
+                }
                 break;
             case R.id.btnTrue:
-                currentCheck =1;
+                if (trueFalseList.get(currentIndex).isTrueOrFalse() == true) {
+                    setProgressMax(100);
+                    startProgressAnimate(0);
+                    currentCheck = 1;
+                    score++;
+                    Log.e("Show", "Show in true");
+                    tvScore.setText(" " + score);
+                    break;
+                }
+                if (trueFalseList.get(currentIndex).isTrueOrFalse() == false) {
+                    showDialogResultGame();
+                    Log.e("Show", "Show in true");
+                    currentCheck = 1;
+                    break;
+                }
                 break;
         }
     }
+
     android.support.v7.app.AlertDialog alertDialogResultGame;
 
     public void showDialogResultGame() {
@@ -150,18 +183,55 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
         LayoutInflater inflater = LayoutInflater.from(this);
         View dialogView = inflater.inflate(R.layout.dialog_result_game, null);
         dialogBuilder.setView(dialogView);
+        TextView tvWrongAnswer = (TextView) dialogView.findViewById(R.id.tvWrongAnswer);
+        TextView tvCorrectAnswer = (TextView) dialogView.findViewById(R.id.tvCorrectAnswer);
+        TextView tvCurrentScore = (TextView) dialogView.findViewById(R.id.tvCurrentScore);
+        TextView tvBestScore = (TextView) dialogView.findViewById(R.id.tvBestScore);
+        int result = 0;
+        switch (trueFalseList.get(currentIndex).getOperator()) {
+            case "+":
+                result = trueFalseList.get(currentIndex).getNumberX() + trueFalseList.get(currentIndex).getNumberY();
+                break;
+            case "-":
+                result = trueFalseList.get(currentIndex).getNumberX() - trueFalseList.get(currentIndex).getNumberY();
+                break;
+            case "*":
+                result = trueFalseList.get(currentIndex).getNumberX() * trueFalseList.get(currentIndex).getNumberY();
+                break;
+            case "/":
+                result = trueFalseList.get(currentIndex).getNumberX() / trueFalseList.get(currentIndex).getNumberY();
+                break;
+        }
+        tvWrongAnswer.setText(this.getResources().getText(R.string.your_answer) +
+                " " + trueFalseList.get(currentIndex).getNumberX() + " " +
+                trueFalseList.get(currentIndex).getOperator() + " " +
+                trueFalseList.get(currentIndex).getNumberY() + " = " +
+                trueFalseList.get(currentIndex).getResult());
+
+        tvCorrectAnswer.setText(this.getResources().getText(R.string.correct_answer)
+                + " " + trueFalseList.get(currentIndex).getNumberX() + " " +
+                trueFalseList.get(currentIndex).getOperator() + " " +
+                trueFalseList.get(currentIndex).getNumberY() + " = " + result
+        );
+
+        tvCurrentScore.setText(" " + score);
 
         if (alertDialogResultGame == null) {
             dialogView.findViewById(R.id.btnGoToMenu).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(TrueFalseActivity.this, "Go menu", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    alertDialogResultGame.dismiss();
                 }
             });
             dialogView.findViewById(R.id.btnRestartGame).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(TrueFalseActivity.this, "Restart game", Toast.LENGTH_SHORT).show();
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                    alertDialogResultGame.dismiss();
                 }
             });
             alertDialogResultGame = dialogBuilder.create();

@@ -12,4 +12,8 @@
     <string name="subtraction">-</string>
     <string name="multiplication">*</string>
     <string name="division">/</string>
+    <string name="your_answer">Your answer:</string>
+    <string name="correct_answer">Correct answer:</string>
+    <string name="current_score">Current score :</string>
+    <string name="best_score">Best score :</string>
 </resources>
