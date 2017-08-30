@@ -145,7 +145,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                     Log.e("false", "false");
                     currentCheck = 0;
                     score++;
-                    tvScore.setText(" " + score);
+                    tvScore.setText(String.valueOf(score));
                     break;
                 }
                 if (trueFalseList.get(currentIndex).isTrueOrFalse()) {
@@ -163,7 +163,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                     currentCheck = 1;
                     score++;
                     Log.e("Show", "Show in true");
-                    tvScore.setText(" " + score);
+                    tvScore.setText(String.valueOf(score));
                     break;
                 }
                 if (!trueFalseList.get(currentIndex).isTrueOrFalse()) {
