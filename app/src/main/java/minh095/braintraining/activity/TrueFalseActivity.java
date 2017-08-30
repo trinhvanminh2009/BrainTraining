@@ -139,16 +139,16 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
 
         switch (v.getId()) {
             case R.id.btnFalse:
-                if (!trueFalseList.get(currentIndex).isTrueOrFalse()) {
+                if (trueFalseList.get(currentIndex).isTrueOrFalse() == false) {
                     setProgressMax(100);
                     startProgressAnimate(0);
                     Log.e("false", "false");
                     currentCheck = 0;
                     score++;
-                    tvScore.setText(String.valueOf(score));
+                    tvScore.setText(" " + score);
                     break;
                 }
-                if (trueFalseList.get(currentIndex).isTrueOrFalse()) {
+                if (trueFalseList.get(currentIndex).isTrueOrFalse() == true) {
                     Log.e("false", "true");
                     showDialogResultGame();
                     Log.e("Show", "Show in false");
@@ -157,16 +157,16 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                 }
                 break;
             case R.id.btnTrue:
-                if (trueFalseList.get(currentIndex).isTrueOrFalse()) {
+                if (trueFalseList.get(currentIndex).isTrueOrFalse() == true) {
                     setProgressMax(100);
                     startProgressAnimate(0);
                     currentCheck = 1;
                     score++;
                     Log.e("Show", "Show in true");
-                    tvScore.setText(String.valueOf(score));
+                    tvScore.setText(" " + score);
                     break;
                 }
-                if (!trueFalseList.get(currentIndex).isTrueOrFalse()) {
+                if (trueFalseList.get(currentIndex).isTrueOrFalse() == false) {
                     showDialogResultGame();
                     Log.e("Show", "Show in true");
                     currentCheck = 1;
