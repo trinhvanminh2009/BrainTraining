@@ -48,7 +48,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
     @BindView(R.id.tvScore)
     TextView tvScore;
 
-    private int currentCheck = -1;
+    private boolean currentCheck = false;
     private int score = 0;
     public static final int TIME_OF_GAME = 6 * 1000;
 
@@ -92,13 +92,13 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                             trueFalseList.get(index).getOperator() + " " +
                             trueFalseList.get(index).getNumberY() + " = " +
                             trueFalseList.get(index).getResult());
-                    currentCheck = -1;
+                    currentCheck = false;
                 }
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
 
-                    if (currentCheck == -1) {
+                    if (!currentCheck) {
                         showDialogResultGame();
                     }
                     Log.e("Show", " " + currentCheck);
@@ -143,7 +143,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                     setProgressMax(100);
                     startProgressAnimate(0);
                     Log.e("false", "false");
-                    currentCheck = 0;
+                    currentCheck = true;
                     score++;
                     tvScore.setText(" " + score);
                     break;
@@ -152,7 +152,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                     Log.e("false", "true");
                     showDialogResultGame();
                     Log.e("Show", "Show in false");
-                    currentCheck = 0;
+                    currentCheck = false;
                     break;
                 }
                 break;
@@ -160,7 +160,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                 if (trueFalseList.get(currentIndex).isTrueOrFalse() == true) {
                     setProgressMax(100);
                     startProgressAnimate(0);
-                    currentCheck = 1;
+                    currentCheck = true;
                     score++;
                     Log.e("Show", "Show in true");
                     tvScore.setText(" " + score);
@@ -169,7 +169,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                 if (trueFalseList.get(currentIndex).isTrueOrFalse() == false) {
                     showDialogResultGame();
                     Log.e("Show", "Show in true");
-                    currentCheck = 1;
+                    currentCheck = false;
                     break;
                 }
                 break;
