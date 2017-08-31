@@ -4,9 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.nfc.Tag;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 
@@ -48,10 +51,10 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
     @BindView(R.id.tvScore)
     TextView tvScore;
 
-    private boolean currentCheck = false;
+    private boolean currentCheck = true;
     private int score = 0;
     public static final int TIME_OF_GAME = 6 * 1000;
-
+    ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", progressBar.getProgress(), 0);
     Random random = new Random();
     List<TrueFalse> trueFalseList = new ArrayList<>();
     int currentIndex = 0;
@@ -76,8 +79,8 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
 
     private void startProgressAnimate(final int progressTo) {
         if (progressBar != null) {
+            currentCheck = false;
 
-            ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", progressBar.getProgress(), progressTo * 100);
             animation.setDuration(TIME_OF_GAME);
             animation.setInterpolator(new DecelerateInterpolator());
 
@@ -92,7 +95,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
                             trueFalseList.get(index).getOperator() + " " +
                             trueFalseList.get(index).getNumberY() + " = " +
                             trueFalseList.get(index).getResult());
-                    currentCheck = false;
                 }
 
                 @Override
@@ -118,6 +120,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
             });
             animation.start();
 
+
         }
 
     }
@@ -135,8 +138,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
 
     @OnClick({R.id.btnFalse, R.id.btnTrue})
     public void eventClick(View v) {
-
-
         switch (v.getId()) {
             case R.id.btnFalse:
                 if (!trueFalseList.get(currentIndex).isTrueOrFalse()) {
@@ -241,6 +242,20 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
 
                 }
             });
+
+            //Make sure user do not play again and back to menu screen
+            alertDialogResultGame.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                    if(keyCode == KeyEvent.KEYCODE_BACK)
+                    {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        alertDialogResultGame.dismiss();
+                    }
+                    return true;
+                }
+            });
             alertDialogResultGame.setCanceledOnTouchOutside(false);
             if (alertDialogResultGame.getWindow() != null) {
                 alertDialogResultGame.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -248,5 +263,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
         }
 
         alertDialogResultGame.show();
+
     }
 }
