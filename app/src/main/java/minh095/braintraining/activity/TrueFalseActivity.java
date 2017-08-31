@@ -147,21 +147,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
         TextView tvCorrectAnswer = (TextView) dialogView.findViewById(R.id.tvCorrectAnswer);
         TextView tvCurrentScore = (TextView) dialogView.findViewById(R.id.tvCurrentScore);
         TextView tvBestScore = (TextView) dialogView.findViewById(R.id.tvBestScore);
-        int result = 0;
-        switch (currentQuestion.getOperator()) {
-            case "+":
-                result = currentQuestion.getNumberX() + currentQuestion.getNumberY();
-                break;
-            case "-":
-                result = currentQuestion.getNumberX() - currentQuestion.getNumberY();
-                break;
-            case "*":
-                result = currentQuestion.getNumberX() * currentQuestion.getNumberY();
-                break;
-            case "/":
-                result = currentQuestion.getNumberX() / currentQuestion.getNumberY();
-                break;
-        }
+
         tvWrongAnswer.setText(this.getResources().getText(R.string.your_answer)
                 + " "
                 + currentQuestion.getNumberX()
@@ -170,7 +156,9 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
                 + " "
                 + currentQuestion.getNumberY()
                 + " = "
-                + currentQuestion.getResult());
+                + currentQuestion.getResult()
+                + " is "
+                + !currentQuestion.isTrueOrFalse());
 
         tvCorrectAnswer.setText(this.getResources().getText(R.string.correct_answer)
                 + " "
@@ -178,8 +166,12 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
                 + " "
                 + currentQuestion.getOperator()
                 + " "
-                + currentQuestion.getNumberY() + " = " + result
-        );
+                + currentQuestion.getNumberY()
+                + " = "
+                + currentQuestion.getResult()
+                + " is "
+                + currentQuestion.isTrueOrFalse());
+
 
         tvCurrentScore.setText(String.valueOf(finalScore));
 
