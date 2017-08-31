@@ -27,7 +27,7 @@
                 android:padding="16dp">
 
                 <ProgressBar
-                    android:id="@+id/pb_loading"
+                    android:id="@+id/progressTimer"
                     style="@android:style/Widget.ProgressBar.Horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
