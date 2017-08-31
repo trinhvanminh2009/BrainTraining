@@ -1,43 +1,30 @@
 package minh095.braintraining.activity;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.nfc.Tag;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-
-import butterknife.OnClick;
-
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
-import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bumptech.glide.load.engine.Resource;
-
-import butterknife.BindView;
-import minh095.braintraining.R;
-import minh095.braintraining.activity.base.BaseActivityNoToolbar;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Timer;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+import minh095.braintraining.R;
+import minh095.braintraining.activity.base.BaseActivityNoToolbar;
 import minh095.braintraining.model.ModelTrueFalse;
 import minh095.braintraining.model.pojo.TrueFalse;
 
-public class TrueFalseActivity extends BaseActivityNoToolbar {
+public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator.AnimatorListener {
 
     @BindView(R.id.pb_loading)
     ProgressBar progressBar;
@@ -48,7 +35,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
     @BindView(R.id.tvScore)
     TextView tvScore;
 
-    private boolean currentCheck = false;
+    private boolean isCorrect = false;
     private int score = 0;
     public static final int TIME_OF_GAME = 6 * 1000;
 
@@ -74,52 +61,18 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
         }
     }
 
+    ObjectAnimator animation;
+
     private void startProgressAnimate(final int progressTo) {
         if (progressBar != null) {
-
-            ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", progressBar.getProgress(), progressTo * 100);
-            animation.setDuration(TIME_OF_GAME);
-            animation.setInterpolator(new DecelerateInterpolator());
-
-            animation.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-
-                    trueFalseList = ModelTrueFalse.randomTrueFalse(5, getApplicationContext());
-                    int index = random.nextInt(trueFalseList.size());
-                    currentIndex = index;
-                    tvQuestion.setText(trueFalseList.get(index).getNumberX() + " " +
-                            trueFalseList.get(index).getOperator() + " " +
-                            trueFalseList.get(index).getNumberY() + " = " +
-                            trueFalseList.get(index).getResult());
-                    currentCheck = false;
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-
-                    if (!currentCheck) {
-                        showDialogResultGame();
-                    }
-                    Log.e("Show", " " + currentCheck);
-
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-
-            });
+            if (animation == null) {
+                animation = ObjectAnimator.ofInt(progressBar, "progress", progressBar.getProgress(), progressTo * 100);
+                animation.setDuration(TIME_OF_GAME);
+                animation.setInterpolator(new DecelerateInterpolator());
+                animation.addListener(this);
+            }
             animation.start();
-
         }
-
     }
 
     @Override
@@ -135,43 +88,46 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
 
     @OnClick({R.id.btnFalse, R.id.btnTrue})
     public void eventClick(View v) {
-
-
         switch (v.getId()) {
             case R.id.btnFalse:
                 if (!trueFalseList.get(currentIndex).isTrueOrFalse()) {
                     setProgressMax(100);
-                    startProgressAnimate(0);
-                    Log.e("false", "false");
-                    currentCheck = true;
                     score++;
                     tvScore.setText(String.valueOf(score));
-                    break;
-                }
-                if (trueFalseList.get(currentIndex).isTrueOrFalse()) {
-                    Log.e("false", "true");
+                    isCorrect = true;
+
+                    if (animation != null) {
+                        animation.cancel();
+                        startProgressAnimate(0);
+                    }
+                } else {
+                    if (animation != null) {
+                        animation.cancel();
+                    }
                     showDialogResultGame();
-                    Log.e("Show", "Show in false");
-                    currentCheck = false;
-                    break;
                 }
+
+
                 break;
             case R.id.btnTrue:
                 if (trueFalseList.get(currentIndex).isTrueOrFalse()) {
+
                     setProgressMax(100);
-                    startProgressAnimate(0);
-                    currentCheck = true;
                     score++;
-                    Log.e("Show", "Show in true");
                     tvScore.setText(String.valueOf(score));
-                    break;
-                }
-                if (!trueFalseList.get(currentIndex).isTrueOrFalse()) {
+                    isCorrect = true;
+
+                    if (animation != null) {
+                        animation.cancel();
+                        startProgressAnimate(0);
+                    }
+                } else {
+                    if (animation != null) {
+                        animation.cancel();
+                    }
                     showDialogResultGame();
-                    Log.e("Show", "Show in true");
-                    currentCheck = false;
-                    break;
                 }
+
                 break;
         }
     }
@@ -248,5 +204,36 @@ public class TrueFalseActivity extends BaseActivityNoToolbar {
         }
 
         alertDialogResultGame.show();
+    }
+
+
+    @Override
+    public void onAnimationStart(Animator animation) {
+
+        trueFalseList = ModelTrueFalse.randomTrueFalse(5, getApplicationContext());
+        int index = random.nextInt(trueFalseList.size());
+        currentIndex = index;
+        tvQuestion.setText(trueFalseList.get(index).getNumberX() + " " +
+                trueFalseList.get(index).getOperator() + " " +
+                trueFalseList.get(index).getNumberY() + " = " +
+                trueFalseList.get(index).getResult());
+        isCorrect = false;
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        if (!isCorrect) {
+            showDialogResultGame();
+        }
+    }
+
+    @Override
+    public void onAnimationCancel(Animator animation) {
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animator animation) {
+
     }
 }
