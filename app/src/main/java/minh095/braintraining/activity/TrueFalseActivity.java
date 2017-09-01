@@ -41,8 +41,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     //     +    if isCorrect = true -> continue game.
     private boolean isCorrect = false;
 
-    private int finalScore = 0;
-
 
     private TrueFalse currentQuestion;
 
@@ -109,8 +107,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
             case R.id.btnFalse:
                 if (!currentQuestion.isTrueOrFalse()) {
                     setFullTimer();
-                    finalScore++;
-                    tvScore.setText(String.valueOf(finalScore));
+                    tvScore.setText(Integer.parseInt(tvScore.getText().toString()) + 1);
                     isCorrect = true;
 
                     if (animationProgressTimer != null) {
@@ -127,8 +124,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
             case R.id.btnTrue:
                 if (currentQuestion.isTrueOrFalse()) {
                     setFullTimer();
-                    finalScore++;
-                    tvScore.setText(String.valueOf(finalScore));
+                    tvScore.setText(Integer.parseInt(tvScore.getText().toString()) + 1);
                     isCorrect = true;
 
                     if (animationProgressTimer != null) {
@@ -192,7 +188,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
                 + currentQuestion.getOperator()
                 + " "
                 + currentQuestion.getNumberY()
-                + " = " 
+                + " = "
                 + currentQuestion.getResult();
         String wrongAnswer = getString(R.string.your_answer) + !currentQuestion.isTrueOrFalse();
         String correctAnswer = getString(R.string.correct_answer) + currentQuestion.isTrueOrFalse();
@@ -201,8 +197,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
         tvWrongAnswer.setText(wrongAnswer);
         tvCorrectAnswer.setText(correctAnswer);
 
-        tvScoreInDialog.setText(String.valueOf(finalScore));
-
+        tvScoreInDialog.setText(tvScore.getText().toString());
         alertDialogResultGame.show();
     }
 
