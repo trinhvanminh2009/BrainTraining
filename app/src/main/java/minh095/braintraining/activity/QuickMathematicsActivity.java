@@ -54,8 +54,8 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     @BindView(R.id.btnAnswerFour)
     TextView btnAnswerFour;
 
-    @BindView(R.id.tvAnimation)
-    TextView tvAnimation;
+    @BindView(R.id.tvCountDownStartGame)
+    TextView tvCountDownStartGame;
 
     private boolean isCorrect = false;
     private int finalScore = 0;
@@ -75,7 +75,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     }
 
     private void initCountDownAnimation() {
-        countDownAnimation = new CountDownAnimation(tvAnimation, 3);
+        countDownAnimation = new CountDownAnimation(tvCountDownStartGame, 3);
         countDownAnimation.setCountDownListener(this);
     }
 
@@ -504,8 +504,8 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
 
     @Override
     public void onCountDownEnd(CountDownAnimation animation) {
-        if (tvAnimation != null && tvQuestion != null) {
-            tvAnimation.setVisibility(View.GONE);
+        if (tvCountDownStartGame != null && tvQuestion != null) {
+            tvCountDownStartGame.setVisibility(View.GONE);
             tvQuestion.setVisibility(View.VISIBLE);
         }
         setFullTimer();

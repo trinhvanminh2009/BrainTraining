@@ -55,7 +55,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="9.5">
                     <TextView
-                        android:id="@+id/tvAnimation"
+                        android:id="@+id/tvCountDownStartGame"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -67,7 +67,7 @@
                         android:shadowDx="0"
                         android:shadowDy="0"
                         android:shadowRadius="8"
-                        android:textColor="#384d35"
+                        android:textColor="@color/colorAccent"
                         android:textSize="60sp"
                         android:text="3"
                         android:textStyle="bold"
