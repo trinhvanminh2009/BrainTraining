@@ -12,7 +12,6 @@ import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.List;
@@ -40,8 +39,8 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     @BindView(R.id.tvScore)
     TextView tvScore;
 
-    @BindView(R.id.tvAnimation)
-    TextView tvAnimation;
+    @BindView(R.id.tvCountDownStartGame)
+    TextView tvCountDownStartGame;
     // isCorrect default = false
     // When start animation isCorrect = false
     // When click button False or True button - if user choose correct Answer -> isCorrect = true .
@@ -64,7 +63,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
 
     private void initCountDownAnimation() {
-        countDownAnimation = new CountDownAnimation(tvAnimation, 3);
+        countDownAnimation = new CountDownAnimation(tvCountDownStartGame, 3);
         countDownAnimation.setCountDownListener(this);
     }
 
@@ -254,9 +253,8 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
     @Override
     public void onCountDownEnd(CountDownAnimation animation) {
-        if(tvAnimation != null && tvQuestion != null)
-        {
-            tvAnimation.setVisibility(View.GONE);
+        if (tvCountDownStartGame != null && tvQuestion != null) {
+            tvCountDownStartGame.setVisibility(View.GONE);
             tvQuestion.setVisibility(View.VISIBLE);
         }
         setFullTimer();
