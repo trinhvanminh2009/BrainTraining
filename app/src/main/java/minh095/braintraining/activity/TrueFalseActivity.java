@@ -89,12 +89,19 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
-                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (animationProgressTimer != null) {
+            animationProgressTimer.cancel();
+        }
+        finish();
+    }
 
     @OnClick({R.id.btnFalse, R.id.btnTrue})
     public void eventClick(View v) {
@@ -200,10 +207,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
                 alertDialogResultGame.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             }
         }
-
         alertDialogResultGame.show();
-
-
     }
 
 
@@ -234,7 +238,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
     @Override
     public void onAnimationCancel(Animator animation) {
-
     }
 
     @Override

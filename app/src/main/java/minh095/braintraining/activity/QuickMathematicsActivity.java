@@ -102,6 +102,14 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (animationProgressTimer != null) {
+            animationProgressTimer.cancel();
+        }
+        finish();
+    }
 
     @OnClick({R.id.btnAnswerOne,R.id.btnAnswerTwo,R.id.btnAnswerThree,R.id.btnAnswerFour})
     public void eventClick(View v) {
@@ -245,6 +253,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
         TextView tvCurrentScore = (TextView) dialogView.findViewById(R.id.tvCurrentScore);
         TextView tvBestScore = (TextView) dialogView.findViewById(R.id.tvBestScore);
 
+
         switch (currentQuestion.getUnknownPosition()) {
             case 0:
                 tvWrongAnswer.setText(this.getResources().getText(R.string.your_answer));
@@ -283,9 +292,6 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
                         + currentAnswer);
                 break;
         }
-
-
-
 
         tvCorrectAnswer.setText(this.getResources().getText(R.string.correct_answer)
                 + " "
@@ -341,6 +347,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
         String question = "";
         Random random = new Random();
         randomPositionCorrectAnswer = random.nextInt(4)+1;
+
         //Switch to set text for question
         switch (currentQuestion.getUnknownPosition()) {
             case 1:
