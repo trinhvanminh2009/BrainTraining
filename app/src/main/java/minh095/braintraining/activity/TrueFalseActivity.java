@@ -185,8 +185,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
                 alertDialogResultGame.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             }
         }
-<<<<<<< HEAD
-=======
         String question = getString(R.string.question)
                 + " "
                 + currentQuestion.getNumberX()
@@ -194,7 +192,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
                 + currentQuestion.getOperator()
                 + " "
                 + currentQuestion.getNumberY()
-                + " = "
+                + " = " 
                 + currentQuestion.getResult();
         String wrongAnswer = getString(R.string.your_answer) + !currentQuestion.isTrueOrFalse();
         String correctAnswer = getString(R.string.correct_answer) + currentQuestion.isTrueOrFalse();
@@ -205,7 +203,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
         tvScoreInDialog.setText(String.valueOf(finalScore));
 
->>>>>>> bc23150cf0345c0ed68abe4996f7914105511a80
         alertDialogResultGame.show();
     }
 
