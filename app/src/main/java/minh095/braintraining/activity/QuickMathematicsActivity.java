@@ -2,6 +2,7 @@ package minh095.braintraining.activity;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -57,6 +59,9 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     @BindView(R.id.tvCountDownStartGame)
     TextView tvCountDownStartGame;
 
+    @BindView(R.id.layoutAnswer)
+    LinearLayout layoutAnswer;
+
     private boolean isCorrect = false;
     private int finalScore = 0;
     private QuickMathematics currentQuestion;
@@ -65,18 +70,30 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     private CountDownAnimation countDownAnimation;
     private ObjectAnimator animationProgressTimer;
     String question = "";
+    private long currentPlayTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_mathematic);
         initCountDownAnimation();
-        startCountDownAnimation();
     }
 
     private void initCountDownAnimation() {
         countDownAnimation = new CountDownAnimation(tvCountDownStartGame, 3);
         countDownAnimation.setCountDownListener(this);
+        Animation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f,
+                0.0f, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        Animation alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
+        AnimationSet animationSet = new AnimationSet(false);
+        animationSet.addAnimation(scaleAnimation);
+        animationSet.addAnimation(alphaAnimation);
+        countDownAnimation.setAnimation(animationSet);
+        // Customizable start count
+        countDownAnimation.setStartCount(3);
+        countDownAnimation.start();
+
     }
 
     private void setUpNewGame() {
@@ -104,7 +121,33 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
         }
     }
 
+    private void stopAnimation() {
+        if (animationProgressTimer != null) {
 
+            if(Build.VERSION.SDK_INT >= 19) {
+                animationProgressTimer.pause();
+            }
+            else {
+                currentPlayTime = animationProgressTimer.getCurrentPlayTime();
+                animationProgressTimer.cancel();
+            }
+        }
+    }
+
+    private void startAnimation() {
+        if (animationProgressTimer != null) {
+            if(Build.VERSION.SDK_INT >= 19) {
+                animationProgressTimer.resume();
+            }
+            else {
+                animationProgressTimer.start();
+                animationProgressTimer.setCurrentPlayTime(currentPlayTime);
+
+            }
+
+        }
+
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -118,20 +161,26 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public void onPause() {
-        if (animationProgressTimer != null) {
-            animationProgressTimer.cancel();
-        }
         if (alertDialogResultGame != null) {
             alertDialogResultGame.dismiss();
         }
+        stopAnimation();
         super.onPause();
 
     }
 
+    @Override
+    protected void onResume() {
+        startAnimation();
+        super.onResume();
+    }
+
     @OnClick({R.id.btnAnswerOne, R.id.btnAnswerTwo, R.id.btnAnswerThree, R.id.btnAnswerFour})
     public void eventClick(View v) {
+
         switch (v.getId()) {
             case R.id.btnAnswerOne:
                 currentAnswer = Integer.parseInt(btnAnswerOne.getText().toString());
@@ -272,12 +321,12 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
         android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(this);
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_result_game, null);
         dialogBuilder.setView(dialogView);
-        if(alertDialogResultGame == null) {
+        if (alertDialogResultGame == null) {
             tvWrongAnswer = (TextView) dialogView.findViewById(R.id.tvWrongAnswer);
             tvCorrectAnswer = (TextView) dialogView.findViewById(R.id.tvCorrectAnswer);
             tvCurrentScore = (TextView) dialogView.findViewById(R.id.tvScore);
             tvBestScore = (TextView) dialogView.findViewById(R.id.tvBestScore);
-            tvQuestionDialog = (TextView)dialogView.findViewById(R.id.tvQuestion);
+            tvQuestionDialog = (TextView) dialogView.findViewById(R.id.tvQuestion);
         }
         switch (currentQuestion.getUnknownPosition()) {
             case 0:
@@ -504,26 +553,13 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
 
     @Override
     public void onCountDownEnd(CountDownAnimation animation) {
-        if (tvCountDownStartGame != null && tvQuestion != null) {
+        if (tvCountDownStartGame != null && tvQuestion != null && layoutAnswer != null) {
             tvCountDownStartGame.setVisibility(View.GONE);
             tvQuestion.setVisibility(View.VISIBLE);
+            layoutAnswer.setVisibility(View.VISIBLE);
         }
         setFullTimer();
         startProgressTimer(0);
     }
 
-    private void startCountDownAnimation() {
-        Animation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f,
-                0.0f, Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f);
-        Animation alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
-        AnimationSet animationSet = new AnimationSet(false);
-        animationSet.addAnimation(scaleAnimation);
-        animationSet.addAnimation(alphaAnimation);
-        countDownAnimation.setAnimation(animationSet);
-        // Customizable start count
-        countDownAnimation.setStartCount(3);
-        countDownAnimation.start();
-
-    }
 }

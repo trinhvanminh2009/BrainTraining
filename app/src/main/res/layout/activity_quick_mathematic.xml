@@ -101,6 +101,7 @@
             android:layout_marginBottom="16dp"
             android:orientation="vertical"
             android:padding="16dp"
+            android:visibility="gone"
             android:weightSum="2">
 
             <LinearLayout

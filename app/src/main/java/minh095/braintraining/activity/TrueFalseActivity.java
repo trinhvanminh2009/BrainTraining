@@ -2,6 +2,7 @@ package minh095.braintraining.activity;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -11,6 +12,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -41,6 +44,10 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
     @BindView(R.id.tvCountDownStartGame)
     TextView tvCountDownStartGame;
+
+    @BindView(R.id.layoutAnswer)
+    LinearLayout layoutAnswer;
+
     // isCorrect default = false
     // When start animation isCorrect = false
     // When click button False or True button - if user choose correct Answer -> isCorrect = true .
@@ -50,21 +57,65 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     private boolean isCorrect = false;
     private TrueFalse currentQuestion;
     private CountDownAnimation countDownAnimation;
-
+    private long currentPlayTime;
+    private ObjectAnimator animationProgressTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_true_false);
         initCountDownAnimation();
-        startCountDownAnimation();
+    }
+
+    private void stopAnimation() {
+        if (animationProgressTimer != null) {
+
+            if(Build.VERSION.SDK_INT >= 19) {
+                animationProgressTimer.pause();
+            }
+            else {
+                currentPlayTime = animationProgressTimer.getCurrentPlayTime();
+                animationProgressTimer.cancel();
+            }
+        }
+    }
+
+    private void startAnimation() {
+        if (animationProgressTimer != null) {
+            if(Build.VERSION.SDK_INT >= 19) {
+                animationProgressTimer.resume();
+            }
+            else {
+                animationProgressTimer.start();
+                animationProgressTimer.setCurrentPlayTime(currentPlayTime);
+
+            }
+
+        }
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startAnimation();
+
+    }
 
     private void initCountDownAnimation() {
         countDownAnimation = new CountDownAnimation(tvCountDownStartGame, 3);
         countDownAnimation.setCountDownListener(this);
+        Animation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f,
+                0.0f, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        Animation alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
+        AnimationSet animationSet = new AnimationSet(false);
+        animationSet.addAnimation(scaleAnimation);
+        animationSet.addAnimation(alphaAnimation);
+        countDownAnimation.setAnimation(animationSet);
+        // Customizable start count
+        countDownAnimation.setStartCount(3);
+        countDownAnimation.start();
     }
 
     private void setUpNewGame() {
@@ -80,7 +131,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
         }
     }
 
-    ObjectAnimator animationProgressTimer;
+
 
     private void startProgressTimer(final int progressTo) {
         if (progressTimer != null) {
@@ -109,6 +160,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     public void eventClick(View v) {
         switch (v.getId()) {
             case R.id.btnFalse:
+
                 if (!currentQuestion.isTrueOrFalse()) {
                     setFullTimer();
                     tvScore.setText(String.valueOf(Integer.parseInt(tvScore.getText().toString()) + 1));
@@ -207,12 +259,10 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
     @Override
     public void onPause() {
-        if (animationProgressTimer != null) {
-            animationProgressTimer.cancel();
-        }
         if (alertDialogResultGame != null) {
             alertDialogResultGame.dismiss();
         }
+        stopAnimation();
         super.onPause();
 
     }
@@ -253,26 +303,12 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
     @Override
     public void onCountDownEnd(CountDownAnimation animation) {
-        if (tvCountDownStartGame != null && tvQuestion != null) {
+        if (tvCountDownStartGame != null && tvQuestion != null && layoutAnswer != null) {
             tvCountDownStartGame.setVisibility(View.GONE);
             tvQuestion.setVisibility(View.VISIBLE);
+            layoutAnswer.setVisibility(View.VISIBLE);
         }
         setFullTimer();
         startProgressTimer(0);
-    }
-
-    private void startCountDownAnimation() {
-        Animation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f,
-                0.0f, Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f);
-        Animation alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
-        AnimationSet animationSet = new AnimationSet(false);
-        animationSet.addAnimation(scaleAnimation);
-        animationSet.addAnimation(alphaAnimation);
-        countDownAnimation.setAnimation(animationSet);
-        // Customizable start count
-        countDownAnimation.setStartCount(3);
-        countDownAnimation.start();
-
     }
 }

@@ -102,6 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:paddingBottom="32dp"
             android:weightSum="2">
 
