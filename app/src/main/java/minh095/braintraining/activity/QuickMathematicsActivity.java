@@ -26,11 +26,11 @@ import minh095.braintraining.model.ModelQuickMathematics;
 import minh095.braintraining.model.pojo.QuickMathematics;
 
 public class QuickMathematicsActivity extends BaseActivityNoToolbar implements Animator.AnimatorListener,
-        CountDownAnimation.CountDownListener{
+        CountDownAnimation.CountDownListener {
 
-    /**currentAnswer to know which value player clicked
-     *
-     * */
+    /**
+     * currentAnswer to know which value player clicked
+     */
     public static final int TIME_OF_GAME = 10 * 1000;
 
     @BindView(R.id.progressTimer)
@@ -119,15 +119,18 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    public void onPause() {
         if (animationProgressTimer != null) {
             animationProgressTimer.cancel();
         }
-        finish();
+        if (alertDialogResultGame != null) {
+            alertDialogResultGame.dismiss();
+        }
+        super.onPause();
+
     }
 
-    @OnClick({R.id.btnAnswerOne,R.id.btnAnswerTwo,R.id.btnAnswerThree,R.id.btnAnswerFour})
+    @OnClick({R.id.btnAnswerOne, R.id.btnAnswerTwo, R.id.btnAnswerThree, R.id.btnAnswerFour})
     public void eventClick(View v) {
         switch (v.getId()) {
             case R.id.btnAnswerOne:
@@ -143,15 +146,15 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
                         startProgressTimer(0);
                     }
                 } else {
-                    if(randomPositionCorrectAnswer == 2) {
+                    if (randomPositionCorrectAnswer == 2) {
                         btnAnswerOne.setBackgroundResource(R.drawable.background_button_check_wrong);
                         btnAnswerTwo.setBackgroundResource(R.drawable.background_button_check_correct);
                     }
-                    if(randomPositionCorrectAnswer == 3) {
+                    if (randomPositionCorrectAnswer == 3) {
                         btnAnswerOne.setBackgroundResource(R.drawable.background_button_check_wrong);
                         btnAnswerThree.setBackgroundResource(R.drawable.background_button_check_correct);
                     }
-                    if(randomPositionCorrectAnswer == 4) {
+                    if (randomPositionCorrectAnswer == 4) {
                         btnAnswerOne.setBackgroundResource(R.drawable.background_button_check_wrong);
                         btnAnswerFour.setBackgroundResource(R.drawable.background_button_check_correct);
 
@@ -175,15 +178,15 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
                         startProgressTimer(0);
                     }
                 } else {
-                    if(randomPositionCorrectAnswer == 1) {
+                    if (randomPositionCorrectAnswer == 1) {
                         btnAnswerOne.setBackgroundResource(R.drawable.background_button_check_correct);
                         btnAnswerTwo.setBackgroundResource(R.drawable.background_button_check_wrong);
                     }
-                    if(randomPositionCorrectAnswer == 3) {
+                    if (randomPositionCorrectAnswer == 3) {
                         btnAnswerTwo.setBackgroundResource(R.drawable.background_button_check_wrong);
                         btnAnswerThree.setBackgroundResource(R.drawable.background_button_check_correct);
                     }
-                    if(randomPositionCorrectAnswer == 4) {
+                    if (randomPositionCorrectAnswer == 4) {
                         btnAnswerTwo.setBackgroundResource(R.drawable.background_button_check_wrong);
                         btnAnswerFour.setBackgroundResource(R.drawable.background_button_check_correct);
                     }
@@ -206,15 +209,15 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
                         startProgressTimer(0);
                     }
                 } else {
-                    if(randomPositionCorrectAnswer == 1) {
+                    if (randomPositionCorrectAnswer == 1) {
                         btnAnswerOne.setBackgroundResource(R.drawable.background_button_check_correct);
                         btnAnswerThree.setBackgroundResource(R.drawable.background_button_check_wrong);
                     }
-                    if(randomPositionCorrectAnswer == 2) {
+                    if (randomPositionCorrectAnswer == 2) {
                         btnAnswerTwo.setBackgroundResource(R.drawable.background_button_check_correct);
                         btnAnswerThree.setBackgroundResource(R.drawable.background_button_check_wrong);
                     }
-                    if(randomPositionCorrectAnswer == 4) {
+                    if (randomPositionCorrectAnswer == 4) {
                         btnAnswerThree.setBackgroundResource(R.drawable.background_button_check_wrong);
                         btnAnswerFour.setBackgroundResource(R.drawable.background_button_check_correct);
                     }
@@ -237,15 +240,15 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
                         startProgressTimer(0);
                     }
                 } else {
-                    if(randomPositionCorrectAnswer == 1) {
+                    if (randomPositionCorrectAnswer == 1) {
                         btnAnswerOne.setBackgroundResource(R.drawable.background_button_check_correct);
                         btnAnswerFour.setBackgroundResource(R.drawable.background_button_check_wrong);
                     }
-                    if(randomPositionCorrectAnswer == 2) {
+                    if (randomPositionCorrectAnswer == 2) {
                         btnAnswerTwo.setBackgroundResource(R.drawable.background_button_check_correct);
                         btnAnswerFour.setBackgroundResource(R.drawable.background_button_check_wrong);
                     }
-                    if(randomPositionCorrectAnswer == 3) {
+                    if (randomPositionCorrectAnswer == 3) {
                         btnAnswerThree.setBackgroundResource(R.drawable.background_button_check_correct);
                         btnAnswerFour.setBackgroundResource(R.drawable.background_button_check_wrong);
                     }
@@ -259,16 +262,21 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     }
 
     android.support.v7.app.AlertDialog alertDialogResultGame;
+    TextView tvWrongAnswer;
+    TextView tvCorrectAnswer;
+    TextView tvCurrentScore;
+    TextView tvBestScore;
 
     public void showDialogResultGame() {
         android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(this);
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_result_game, null);
         dialogBuilder.setView(dialogView);
-        TextView tvWrongAnswer = (TextView) dialogView.findViewById(R.id.tvWrongAnswer);
-        TextView tvCorrectAnswer = (TextView) dialogView.findViewById(R.id.tvCorrectAnswer);
-        TextView tvCurrentScore = (TextView) dialogView.findViewById(R.id.tvScore);
-        TextView tvBestScore = (TextView) dialogView.findViewById(R.id.tvBestScore);
-
+        if(alertDialogResultGame == null) {
+            tvWrongAnswer = (TextView) dialogView.findViewById(R.id.tvWrongAnswer);
+            tvCorrectAnswer = (TextView) dialogView.findViewById(R.id.tvCorrectAnswer);
+            tvCurrentScore = (TextView) dialogView.findViewById(R.id.tvScore);
+            tvBestScore = (TextView) dialogView.findViewById(R.id.tvBestScore);
+        }
         switch (currentQuestion.getUnknownPosition()) {
             case 0:
                 tvWrongAnswer.setText(this.getResources().getText(R.string.your_answer));
@@ -307,8 +315,6 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
                         + currentAnswer);
                 break;
         }
-
-
 
 
         tvCorrectAnswer.setText(this.getResources().getText(R.string.correct_answer)
@@ -364,7 +370,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
         currentQuestion = quickMathematicsList.get(index);
         String question = "";
         Random random = new Random();
-        randomPositionCorrectAnswer = random.nextInt(4)+1;
+        randomPositionCorrectAnswer = random.nextInt(4) + 1;
         //Switch to set text for question
         switch (currentQuestion.getUnknownPosition()) {
             case 1:
@@ -375,8 +381,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
                         + currentQuestion.getNumberY()
                         + " = "
                         + currentQuestion.getResult();
-                switch (randomPositionCorrectAnswer)
-                {
+                switch (randomPositionCorrectAnswer) {
                     case 1:
                         btnAnswerOne.setText(String.valueOf(currentQuestion.getNumberX()));
                         btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongResult().get(0)));
@@ -411,8 +416,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
                         + "?"
                         + " = "
                         + currentQuestion.getResult();
-                switch (randomPositionCorrectAnswer)
-                {
+                switch (randomPositionCorrectAnswer) {
                     case 1:
                         btnAnswerOne.setText(String.valueOf(currentQuestion.getNumberY()));
                         btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongResult().get(0)));
@@ -448,8 +452,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
                         + " = "
                         + "?";
                 //Switch to set text for buttons
-                switch (randomPositionCorrectAnswer)
-                {
+                switch (randomPositionCorrectAnswer) {
                     case 1:
                         btnAnswerOne.setText(String.valueOf(currentQuestion.getResult()));
                         btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongResult().get(0)));
@@ -500,8 +503,10 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
 
     @Override
     public void onCountDownEnd(CountDownAnimation animation) {
-        tvAnimation.setVisibility(View.GONE);
-        tvQuestion.setVisibility(View.VISIBLE);
+        if (tvAnimation != null && tvQuestion != null) {
+            tvAnimation.setVisibility(View.GONE);
+            tvQuestion.setVisibility(View.VISIBLE);
+        }
         setFullTimer();
         startProgressTimer(0);
     }

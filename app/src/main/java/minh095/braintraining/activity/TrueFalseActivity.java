@@ -254,8 +254,11 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
     @Override
     public void onCountDownEnd(CountDownAnimation animation) {
-        tvAnimation.setVisibility(View.GONE);
-        tvQuestion.setVisibility(View.VISIBLE);
+        if(tvAnimation != null && tvQuestion != null)
+        {
+            tvAnimation.setVisibility(View.GONE);
+            tvQuestion.setVisibility(View.VISIBLE);
+        }
         setFullTimer();
         startProgressTimer(0);
     }
