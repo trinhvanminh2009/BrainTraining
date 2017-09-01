@@ -242,7 +242,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
         dialogBuilder.setView(dialogView);
         TextView tvWrongAnswer = (TextView) dialogView.findViewById(R.id.tvWrongAnswer);
         TextView tvCorrectAnswer = (TextView) dialogView.findViewById(R.id.tvCorrectAnswer);
-        TextView tvCurrentScore = (TextView) dialogView.findViewById(R.id.tvCurrentScore);
+        TextView tvCurrentScore = (TextView) dialogView.findViewById(R.id.tvScore);
         TextView tvBestScore = (TextView) dialogView.findViewById(R.id.tvBestScore);
 
         switch (currentQuestion.getUnknownPosition()) {

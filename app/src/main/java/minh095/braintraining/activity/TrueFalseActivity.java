@@ -114,7 +114,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
                     if (animationProgressTimer != null) {
                         animationProgressTimer.cancel();
                     }
-                    showDialogResultGame();
+                    showDialogResultGame(currentQuestion);
                 }
                 break;
             case R.id.btnTrue:
@@ -132,51 +132,29 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
                     if (animationProgressTimer != null) {
                         animationProgressTimer.cancel();
                     }
-                    showDialogResultGame();
+                    showDialogResultGame(currentQuestion);
                 }
                 break;
         }
     }
 
     android.support.v7.app.AlertDialog alertDialogResultGame;
+    TextView tvQuestionInDialog;
+    TextView tvWrongAnswer;
+    TextView tvCorrectAnswer;
+    TextView tvScoreInDialog;
+    TextView tvBestScore;
 
-    public void showDialogResultGame() {
+    public void showDialogResultGame(TrueFalse currentQuestion) {
         android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(this);
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_result_game, null);
         dialogBuilder.setView(dialogView);
-        TextView tvWrongAnswer = (TextView) dialogView.findViewById(R.id.tvWrongAnswer);
-        TextView tvCorrectAnswer = (TextView) dialogView.findViewById(R.id.tvCorrectAnswer);
-        TextView tvCurrentScore = (TextView) dialogView.findViewById(R.id.tvCurrentScore);
-        TextView tvBestScore = (TextView) dialogView.findViewById(R.id.tvBestScore);
-
-        tvWrongAnswer.setText(this.getResources().getText(R.string.your_answer)
-                + " "
-                + currentQuestion.getNumberX()
-                + " "
-                + currentQuestion.getOperator()
-                + " "
-                + currentQuestion.getNumberY()
-                + " = "
-                + currentQuestion.getResult()
-                + " is "
-                + !currentQuestion.isTrueOrFalse());
-
-        tvCorrectAnswer.setText(this.getResources().getText(R.string.correct_answer)
-                + " "
-                + currentQuestion.getNumberX()
-                + " "
-                + currentQuestion.getOperator()
-                + " "
-                + currentQuestion.getNumberY()
-                + " = "
-                + currentQuestion.getResult()
-                + " is "
-                + currentQuestion.isTrueOrFalse());
-
-
-        tvCurrentScore.setText(String.valueOf(finalScore));
-
         if (alertDialogResultGame == null) {
+            tvQuestionInDialog = (TextView) dialogView.findViewById(R.id.tvQuestion);
+            tvWrongAnswer = (TextView) dialogView.findViewById(R.id.tvWrongAnswer);
+            tvCorrectAnswer = (TextView) dialogView.findViewById(R.id.tvCorrectAnswer);
+            tvScoreInDialog = (TextView) dialogView.findViewById(R.id.tvScore);
+            tvBestScore = (TextView) dialogView.findViewById(R.id.tvBestScore);
             dialogView.findViewById(R.id.btnGoToMenu).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -200,6 +178,23 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
                 alertDialogResultGame.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             }
         }
+        String question = getString(R.string.question)
+                + " "
+                + currentQuestion.getNumberX()
+                + " "
+                + currentQuestion.getOperator()
+                + " "
+                + currentQuestion.getNumberY()
+                + " = "
+                + currentQuestion.getResult();
+        String wrongAnswer = getString(R.string.your_answer) + !currentQuestion.isTrueOrFalse();
+        String correctAnswer = getString(R.string.correct_answer) + currentQuestion.isTrueOrFalse();
+
+        tvQuestionInDialog.setText(question);
+        tvWrongAnswer.setText(wrongAnswer);
+        tvCorrectAnswer.setText(correctAnswer);
+
+        tvScoreInDialog.setText(String.valueOf(finalScore));
 
         alertDialogResultGame.show();
 
@@ -210,7 +205,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     @Override
     public void onAnimationStart(Animator animation) {
 
-        List<TrueFalse> trueFalseList = ModelTrueFalse.randomTrueFalse(getApplicationContext(),30);
+        List<TrueFalse> trueFalseList = ModelTrueFalse.randomTrueFalse(getApplicationContext(), 30);
         int index = new Random().nextInt(trueFalseList.size());
         currentQuestion = trueFalseList.get(index);
         String question = currentQuestion.getNumberX()
@@ -228,7 +223,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     @Override
     public void onAnimationEnd(Animator animation) {
         if (!isCorrect) {
-            showDialogResultGame();
+            showDialogResultGame(currentQuestion);
         }
     }
 
