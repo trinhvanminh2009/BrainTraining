@@ -28,9 +28,6 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
 
         </activity>
-        <activity
-            android:name=".activity.QuickMathematicsActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
     </application>
 
 </manifest>
