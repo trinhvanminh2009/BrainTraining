@@ -40,8 +40,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     //     +    if isCorrect = false -> show dialog result of game to User
     //     +    if isCorrect = true -> continue game.
     private boolean isCorrect = false;
-
-
     private TrueFalse currentQuestion;
 
 
@@ -94,11 +92,10 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (animationProgressTimer != null) {
             animationProgressTimer.cancel();
         }
-        finish();
+        super.onBackPressed();
     }
 
     @OnClick({R.id.btnFalse, R.id.btnTrue})
@@ -141,12 +138,12 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
         }
     }
 
-    android.support.v7.app.AlertDialog alertDialogResultGame;
-    TextView tvQuestionInDialog;
-    TextView tvWrongAnswer;
-    TextView tvCorrectAnswer;
-    TextView tvScoreInDialog;
-    TextView tvBestScore;
+    private android.support.v7.app.AlertDialog alertDialogResultGame;
+    private TextView tvQuestionInDialog;
+    private TextView tvWrongAnswer;
+    private TextView tvCorrectAnswer;
+    private TextView tvScoreInDialog;
+    private TextView tvBestScore;
 
     public void showDialogResultGame(TrueFalse currentQuestion) {
         android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(this);
