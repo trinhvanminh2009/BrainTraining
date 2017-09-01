@@ -63,6 +63,8 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     int randomPositionCorrectAnswer = 0;
     int currentAnswer = 0;
     private CountDownAnimation countDownAnimation;
+    private ObjectAnimator animationProgressTimer;
+    String question = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +91,6 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
             progressTimer.setProgress(100 * 100);
         }
     }
-
-    ObjectAnimator animationProgressTimer;
 
     private void startProgressTimer(final int progressTo) {
         if (progressTimer != null) {
@@ -266,6 +266,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     TextView tvCorrectAnswer;
     TextView tvCurrentScore;
     TextView tvBestScore;
+    TextView tvQuestionDialog;
 
     public void showDialogResultGame() {
         android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(this);
@@ -276,6 +277,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
             tvCorrectAnswer = (TextView) dialogView.findViewById(R.id.tvCorrectAnswer);
             tvCurrentScore = (TextView) dialogView.findViewById(R.id.tvScore);
             tvBestScore = (TextView) dialogView.findViewById(R.id.tvBestScore);
+            tvQuestionDialog = (TextView)dialogView.findViewById(R.id.tvQuestion);
         }
         switch (currentQuestion.getUnknownPosition()) {
             case 0:
@@ -327,9 +329,9 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
                 + " = "
                 + currentQuestion.getResult());
 
-
+        String currentQuestion = getString(R.string.question) + question;
         tvCurrentScore.setText(String.valueOf(finalScore));
-
+        tvQuestionDialog.setText(currentQuestion);
         if (alertDialogResultGame == null) {
             dialogView.findViewById(R.id.btnGoToMenu).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -368,7 +370,6 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
         List<QuickMathematics> quickMathematicsList = ModelQuickMathematics.randomQuickMathematics(getApplicationContext(), 30);
         int index = new Random().nextInt(quickMathematicsList.size());
         currentQuestion = quickMathematicsList.get(index);
-        String question = "";
         Random random = new Random();
         randomPositionCorrectAnswer = random.nextInt(4) + 1;
         //Switch to set text for question
