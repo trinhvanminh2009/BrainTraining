@@ -107,7 +107,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
             case R.id.btnFalse:
                 if (!currentQuestion.isTrueOrFalse()) {
                     setFullTimer();
-                    tvScore.setText(Integer.parseInt(tvScore.getText().toString()) + 1);
+                    tvScore.setText(String.valueOf(Integer.parseInt(tvScore.getText().toString()) + 1));
                     isCorrect = true;
 
                     if (animationProgressTimer != null) {
@@ -124,7 +124,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
             case R.id.btnTrue:
                 if (currentQuestion.isTrueOrFalse()) {
                     setFullTimer();
-                    tvScore.setText(Integer.parseInt(tvScore.getText().toString()) + 1);
+                    tvScore.setText(String.valueOf(Integer.parseInt(tvScore.getText().toString()) + 1));
                     isCorrect = true;
 
                     if (animationProgressTimer != null) {
