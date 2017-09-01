@@ -6,8 +6,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.List;
@@ -17,10 +22,12 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import minh095.braintraining.R;
 import minh095.braintraining.activity.base.BaseActivityNoToolbar;
+import minh095.braintraining.animation.CountDownAnimation;
 import minh095.braintraining.model.ModelTrueFalse;
 import minh095.braintraining.model.pojo.TrueFalse;
 
-public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator.AnimatorListener {
+public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator.AnimatorListener,
+        CountDownAnimation.CountDownListener {
 
     public static final int TIME_OF_GAME = 6 * 1000;
 
@@ -33,6 +40,8 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     @BindView(R.id.tvScore)
     TextView tvScore;
 
+    @BindView(R.id.tvAnimation)
+    TextView tvAnimation;
     // isCorrect default = false
     // When start animation isCorrect = false
     // When click button False or True button - if user choose correct Answer -> isCorrect = true .
@@ -41,16 +50,22 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     //     +    if isCorrect = true -> continue game.
     private boolean isCorrect = false;
     private TrueFalse currentQuestion;
+    private CountDownAnimation countDownAnimation;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_true_false);
-        setFullTimer();
-        startProgressTimer(0);
+        initCountDownAnimation();
+        startCountDownAnimation();
+
+    }
 
 
+    private void initCountDownAnimation() {
+        countDownAnimation = new CountDownAnimation(tvAnimation, 3);
+        countDownAnimation.setCountDownListener(this);
     }
 
     private void setUpNewGame() {
@@ -230,6 +245,29 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
     @Override
     public void onAnimationRepeat(Animator animation) {
+
+    }
+
+    @Override
+    public void onCountDownEnd(CountDownAnimation animation) {
+        tvAnimation.setVisibility(View.GONE);
+        tvQuestion.setVisibility(View.VISIBLE);
+        setFullTimer();
+        startProgressTimer(0);
+    }
+
+    private void startCountDownAnimation() {
+        Animation scaleAnimation = new ScaleAnimation(1.0f, 0.0f, 1.0f,
+                0.0f, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        Animation alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
+        AnimationSet animationSet = new AnimationSet(false);
+        animationSet.addAnimation(scaleAnimation);
+        animationSet.addAnimation(alphaAnimation);
+        countDownAnimation.setAnimation(animationSet);
+        // Customizable start count
+        countDownAnimation.setStartCount(3);
+        countDownAnimation.start();
 
     }
 }
