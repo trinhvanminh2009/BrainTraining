@@ -90,13 +90,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (animationProgressTimer != null) {
-            animationProgressTimer.cancel();
-        }
-        super.onBackPressed();
-    }
 
     @OnClick({R.id.btnFalse, R.id.btnTrue})
     public void eventClick(View v) {
@@ -198,6 +191,17 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
         alertDialogResultGame.show();
     }
 
+    @Override
+    public void onPause() {
+        if (animationProgressTimer != null) {
+            animationProgressTimer.cancel();
+        }
+        if (alertDialogResultGame != null) {
+            alertDialogResultGame.dismiss();
+        }
+        super.onPause();
+
+    }
 
     @Override
     public void onAnimationStart(Animator animation) {
