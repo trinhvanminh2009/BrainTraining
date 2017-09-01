@@ -1,14 +1,11 @@
 package minh095.braintraining.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -39,7 +36,7 @@ public class MainActivity extends BaseActivityWithToolbar {
         switch (v.getId()) {
 
             case R.id.btnGameFreakingMath:
-                nextIntent = new Intent(this, QuickMathematicActivity.class);
+                nextIntent = new Intent(this, QuickMathematicsActivity.class);
                 break;
             case R.id.btnGameTrueFalse:
                 nextIntent = new Intent(this, TrueFalseActivity.class);

@@ -89,6 +89,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -201,13 +202,15 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
         }
 
         alertDialogResultGame.show();
+
+
     }
 
 
     @Override
     public void onAnimationStart(Animator animation) {
 
-        List<TrueFalse> trueFalseList = ModelTrueFalse.randomTrueFalse(5, getApplicationContext());
+        List<TrueFalse> trueFalseList = ModelTrueFalse.randomTrueFalse(getApplicationContext(),30);
         int index = new Random().nextInt(trueFalseList.size());
         currentQuestion = trueFalseList.get(index);
         String question = currentQuestion.getNumberX()

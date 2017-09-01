@@ -29,7 +29,7 @@
 
         </activity>
         <activity
-            android:name=".activity.QuickMathematicActivity"
+            android:name=".activity.QuickMathematicsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
     </application>
 

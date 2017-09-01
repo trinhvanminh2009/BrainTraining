@@ -15,7 +15,7 @@ import minh095.braintraining.model.pojo.TrueFalse;
 
 public class ModelTrueFalse {
 
-    public static List<TrueFalse> randomTrueFalse(int currentSore, Context context){
+    public static List<TrueFalse> randomTrueFalse(Context context,int currentSore){
         ArrayList<String>levelList = new ArrayList<>();
         ArrayList<String>operatorsEasyList = new ArrayList<>();
         ArrayList<String>operatorsNormalList = new ArrayList<>();
