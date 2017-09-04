@@ -13,8 +13,8 @@
     <string name="multiplication">*</string>
     <string name="division">/</string>
     <string name="question">Question : </string>
-    <string name="your_answer">Your answer :  </string>
-    <string name="correct_answer">Correct answer :  </string>
+    <string name="your_answer">Your answer :&#160;</string>
+    <string name="correct_answer">Correct answer :&#160;</string>
     <string name="current_score">Score : </string>
     <string name="best_score">Best score : </string>
 </resources>

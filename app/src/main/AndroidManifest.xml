@@ -22,14 +22,17 @@
         <activity
             android:name=".activity.ListActivity"
             android:label="@string/title_activity_list"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.TrueFalseActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
 
         </activity>
         <activity
             android:name=".activity.QuickMathematicsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
 
         </activity>
