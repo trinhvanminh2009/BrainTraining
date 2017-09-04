@@ -31,7 +31,7 @@ import minh095.braintraining.model.pojo.TrueFalse;
 public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator.AnimatorListener,
         CountDownAnimation.CountDownListener {
 
-    public static final int TIME_OF_GAME = 6 * 1000;
+    public static final int TIME_OF_GAME = 3* 1000;
 
     @BindView(R.id.progressTimer)
     ProgressBar progressTimer;

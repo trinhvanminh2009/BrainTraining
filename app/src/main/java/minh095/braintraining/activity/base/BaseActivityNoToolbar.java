@@ -10,22 +10,19 @@ import butterknife.Unbinder;
 import minh095.braintraining.R;
 
 
-public class BaseActivityNoToolbar extends AppCompatActivity {
+public class BaseActivityNoToolbar extends BaseActivity {
 
-    Unbinder unbinder;
 
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
-        unbinder = ButterKnife.bind(this);
     }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
     }
 
 

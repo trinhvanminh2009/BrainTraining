@@ -10,9 +10,8 @@ import butterknife.Unbinder;
 import minh095.braintraining.R;
 
 
-public class BaseActivityWithToolbar extends AppCompatActivity {
+public class BaseActivityWithToolbar extends BaseActivity {
 
-    Unbinder unbinder;
 
     @BindView(R.id.toolBar)
     Toolbar toolBar;
@@ -24,7 +23,6 @@ public class BaseActivityWithToolbar extends AppCompatActivity {
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
-        unbinder = ButterKnife.bind(this);
         setSupportActionBar(toolBar);
 
     }
@@ -38,7 +36,6 @@ public class BaseActivityWithToolbar extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
     }
 
 
