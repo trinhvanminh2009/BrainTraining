@@ -326,7 +326,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
 
     public void showDialogResultGame() {
         android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(this);
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_result_game, null);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_result_true_false_game, null);
         dialogBuilder.setView(dialogView);
         if (alertDialogResultGame == null) {
             tvWrongAnswer = (TextView) dialogView.findViewById(R.id.tvWrongAnswer);

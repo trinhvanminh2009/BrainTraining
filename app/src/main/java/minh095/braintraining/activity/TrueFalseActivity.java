@@ -202,7 +202,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
     public void showDialogResultGame(TrueFalse currentQuestion) {
         android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(this);
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_result_game, null);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_result_true_false_game, null);
         dialogBuilder.setView(dialogView);
         if (alertDialogResultGame == null) {
             tvQuestionInDialog = (TextView) dialogView.findViewById(R.id.tvQuestion);
