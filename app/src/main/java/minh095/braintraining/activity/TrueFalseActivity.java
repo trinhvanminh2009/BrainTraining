@@ -2,9 +2,10 @@ package minh095.braintraining.activity;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,9 +17,6 @@ import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -253,6 +251,20 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
         tvScoreInDialog.setText(tvScore.getText().toString());
         alertDialogResultGame.show();
+
+        //Prevent user using back button of android devices to play game again
+        alertDialogResultGame.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_BACK)
+                {
+                    alertDialogResultGame.dismiss();
+                    finish();
+                }
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -279,7 +291,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
             tvQuestion.setText(question);
             isCorrect = false;
-
         }
         checkPauseGame = false;
 

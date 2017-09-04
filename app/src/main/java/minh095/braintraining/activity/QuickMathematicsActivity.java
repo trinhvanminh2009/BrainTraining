@@ -2,8 +2,10 @@ package minh095.braintraining.activity;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -313,6 +315,8 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
         }
     }
 
+
+
     android.support.v7.app.AlertDialog alertDialogResultGame;
     TextView tvWrongAnswer;
     TextView tvCorrectAnswer;
@@ -413,6 +417,20 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
             }
         }
         alertDialogResultGame.show();
+        //Prevent user using back button of android devices to play game again
+        alertDialogResultGame.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_BACK)
+                {
+                    alertDialogResultGame.dismiss();
+                    finish();
+                }
+                return true;
+            }
+        });
+
+
     }
 
 
