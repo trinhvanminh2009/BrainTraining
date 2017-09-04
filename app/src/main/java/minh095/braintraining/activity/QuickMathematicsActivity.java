@@ -37,6 +37,8 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
      */
     public static final int TIME_OF_GAME = 10 * 1000;
 
+    // asdasdasfdkj
+    //sdaskd
     @BindView(R.id.progressTimer)
     ProgressBar progressTimer;
 
