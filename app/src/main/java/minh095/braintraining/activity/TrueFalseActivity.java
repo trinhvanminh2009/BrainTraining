@@ -2,8 +2,10 @@ package minh095.braintraining.activity;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -200,7 +202,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
     public void showDialogResultGame(TrueFalse currentQuestion) {
         android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(this);
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_result_true_false_game, null);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_result_game, null);
         dialogBuilder.setView(dialogView);
         if (alertDialogResultGame == null) {
             tvQuestionInDialog = (TextView) dialogView.findViewById(R.id.tvQuestion);
@@ -249,6 +251,20 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
         tvScoreInDialog.setText(tvScore.getText().toString());
         alertDialogResultGame.show();
+
+        //Prevent user using back button of android devices to play game again
+        alertDialogResultGame.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_BACK)
+                {
+                    alertDialogResultGame.dismiss();
+                    finish();
+                }
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -275,7 +291,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
             tvQuestion.setText(question);
             isCorrect = false;
-
         }
         checkPauseGame = false;
 

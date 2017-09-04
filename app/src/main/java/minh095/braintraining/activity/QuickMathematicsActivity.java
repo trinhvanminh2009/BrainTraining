@@ -2,8 +2,10 @@ package minh095.braintraining.activity;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -312,6 +315,8 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
         }
     }
 
+
+
     android.support.v7.app.AlertDialog alertDialogResultGame;
     TextView tvWrongAnswer;
     TextView tvCorrectAnswer;
@@ -321,7 +326,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
 
     public void showDialogResultGame() {
         android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(this);
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_result_true_false_game, null);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_result_game, null);
         dialogBuilder.setView(dialogView);
         if (alertDialogResultGame == null) {
             tvWrongAnswer = (TextView) dialogView.findViewById(R.id.tvWrongAnswer);
@@ -412,6 +417,20 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
             }
         }
         alertDialogResultGame.show();
+        //Prevent user using back button of android devices to play game again
+        alertDialogResultGame.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_BACK)
+                {
+                    alertDialogResultGame.dismiss();
+                    finish();
+                }
+                return true;
+            }
+        });
+
+
     }
 
 

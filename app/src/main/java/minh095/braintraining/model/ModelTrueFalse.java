@@ -28,7 +28,6 @@ public class ModelTrueFalse {
         ArrayList<String>operatorsHardList = new ArrayList<>();
         List<TrueFalse>trueFalseList = new ArrayList<>();
         Random random = new Random();
-
         operatorsEasyList.add(context.getResources().getString(R.string.addition));
         operatorsEasyList.add(context.getResources().getString(R.string.subtraction));
 
