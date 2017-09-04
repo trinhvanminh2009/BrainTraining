@@ -69,7 +69,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     private QuickMathematics currentQuestion;
     int randomPositionCorrectAnswer = 0;
     int currentAnswer = 0;
-    private CountDownAnimation countDownAnimation;
+    CountDownAnimation countDownAnimation;
     private ObjectAnimator animationProgressTimer;
     String question = "";
     private long currentPlayTime;
