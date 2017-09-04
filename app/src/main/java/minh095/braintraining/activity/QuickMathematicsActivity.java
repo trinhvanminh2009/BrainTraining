@@ -419,9 +419,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     @Override
     public void onAnimationStart(Animator animation) {
         if (!checkPauseGame) {
-            List<QuickMathematics> quickMathematicsList = ModelQuickMathematics.randomQuickMathematics(getApplicationContext(), 30);
-            int index = new Random().nextInt(quickMathematicsList.size());
-            currentQuestion = quickMathematicsList.get(index);
+            currentQuestion = ModelQuickMathematics.getQuestionMathematics(getApplicationContext());
             Random random = new Random();
             randomPositionCorrectAnswer = random.nextInt(4) + 1;
             //Switch to set text for question

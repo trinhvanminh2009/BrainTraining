@@ -268,9 +268,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     @Override
     public void onAnimationStart(Animator animation) {
         if (!checkPauseGame) {
-            List<TrueFalse> trueFalseList = ModelTrueFalse.randomTrueFalse(getApplicationContext(), 30);
-            int index = new Random().nextInt(trueFalseList.size());
-            currentQuestion = trueFalseList.get(index);
+            currentQuestion = ModelTrueFalse.getTrueFalseQuestion(getApplicationContext());
             String question = currentQuestion.getNumberX()
                     + " "
                     + currentQuestion.getOperator()
@@ -283,7 +281,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
             isCorrect = false;
 
         }
-
         checkPauseGame = false;
 
     }

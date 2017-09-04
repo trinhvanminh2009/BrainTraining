@@ -14,7 +14,14 @@ import minh095.braintraining.model.pojo.TrueFalse;
  */
 
 public class ModelTrueFalse {
-    public static List<TrueFalse> randomTrueFalse(Context context,int currentSore){
+
+    public static TrueFalse getTrueFalseQuestion(Context context)
+    {
+        List<TrueFalse> trueFalseList = ModelTrueFalse.randomTrueFalse(context, 30);
+        int index = new Random().nextInt(trueFalseList.size());
+        return trueFalseList.get(index);
+    }
+    private static List<TrueFalse> randomTrueFalse(Context context,int currentSore){
         ArrayList<String>levelList = new ArrayList<>();
         ArrayList<String>operatorsEasyList = new ArrayList<>();
         ArrayList<String>operatorsNormalList = new ArrayList<>();

@@ -168,4 +168,10 @@ public class ModelQuickMathematics {
         return quickMathematicsList;
     }
 
+    public static QuickMathematics getQuestionMathematics(Context context)
+    {
+        List<QuickMathematics> quickMathematicsList = ModelQuickMathematics.randomQuickMathematics(context, 30);
+        int index = new Random().nextInt(quickMathematicsList.size());
+        return quickMathematicsList.get(index);
+    }
 }
