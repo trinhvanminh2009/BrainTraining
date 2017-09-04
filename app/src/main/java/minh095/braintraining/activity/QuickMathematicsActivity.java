@@ -39,6 +39,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
 
     // asdasdasfdkj
     //sdaskd
+    //da sdjasld
     @BindView(R.id.progressTimer)
     ProgressBar progressTimer;
 
