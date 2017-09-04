@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -56,9 +56,10 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     //     +    if isCorrect = true -> continue game.
     private boolean isCorrect = false;
     private TrueFalse currentQuestion;
-    private CountDownAnimation countDownAnimation;
     private long currentPlayTime;
     private ObjectAnimator animationProgressTimer;
+    private boolean checkPauseGame = false;
+    CountDownAnimation countDownAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,27 +71,25 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     private void stopAnimation() {
         if (animationProgressTimer != null) {
 
-            if(Build.VERSION.SDK_INT >= 19) {
+            if (Build.VERSION.SDK_INT >= 19) {
                 animationProgressTimer.pause();
-            }
-            else {
+            } else {
                 currentPlayTime = animationProgressTimer.getCurrentPlayTime();
-                animationProgressTimer.cancel();
+                isCorrect = true;
+                checkPauseGame = true;
             }
         }
     }
 
     private void startAnimation() {
         if (animationProgressTimer != null) {
-            if(Build.VERSION.SDK_INT >= 19) {
+            if (Build.VERSION.SDK_INT >= 19) {
                 animationProgressTimer.resume();
-            }
-            else {
+            } else {
                 animationProgressTimer.start();
                 animationProgressTimer.setCurrentPlayTime(currentPlayTime);
-
+                isCorrect = false;
             }
-
         }
 
     }
@@ -130,7 +129,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
             progressTimer.setProgress(100 * 100);
         }
     }
-
 
 
     private void startProgressTimer(final int progressTo) {
@@ -269,20 +267,25 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
     @Override
     public void onAnimationStart(Animator animation) {
+        if (!checkPauseGame) {
+            List<TrueFalse> trueFalseList = ModelTrueFalse.randomTrueFalse(getApplicationContext(), 30);
+            int index = new Random().nextInt(trueFalseList.size());
+            currentQuestion = trueFalseList.get(index);
+            String question = currentQuestion.getNumberX()
+                    + " "
+                    + currentQuestion.getOperator()
+                    + " "
+                    + currentQuestion.getNumberY()
+                    + " = "
+                    + currentQuestion.getResult();
 
-        List<TrueFalse> trueFalseList = ModelTrueFalse.randomTrueFalse(getApplicationContext(), 30);
-        int index = new Random().nextInt(trueFalseList.size());
-        currentQuestion = trueFalseList.get(index);
-        String question = currentQuestion.getNumberX()
-                + " "
-                + currentQuestion.getOperator()
-                + " "
-                + currentQuestion.getNumberY()
-                + " = "
-                + currentQuestion.getResult();
+            tvQuestion.setText(question);
+            isCorrect = false;
 
-        tvQuestion.setText(question);
-        isCorrect = false;
+        }
+
+        checkPauseGame = false;
+
     }
 
     @Override

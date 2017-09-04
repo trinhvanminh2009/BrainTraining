@@ -7,10 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
-
 import minh095.braintraining.R;
 import minh095.braintraining.model.pojo.Score;
 
@@ -46,11 +44,11 @@ public class ScoreAdapter extends RecyclerView.Adapter {
     }
 
     private class ScoreViewHolder extends RecyclerView.ViewHolder {
-        private Button tvScore;
+        private TextView tvScore;
 
         ScoreViewHolder(View itemView) {
             super(itemView);
-            tvScore = (Button) itemView.findViewById(R.id.tvScore);
+            tvScore = (TextView) itemView.findViewById(R.id.tvScore);
             tvScore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
