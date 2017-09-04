@@ -24,12 +24,12 @@ import minh095.braintraining.R;
 import minh095.braintraining.activity.base.BaseActivityNoToolbar;
 import minh095.braintraining.animation.CountDownAnimation;
 import minh095.braintraining.model.ModelTrueFalse;
-import minh095.braintraining.model.pojo.TrueFalse;
+import minh095.braintraining.model.pojo.TrueFalseQuestion;
 
 public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator.AnimatorListener,
         CountDownAnimation.CountDownListener {
 
-    public static final int TIME_OF_GAME = 3* 1000;
+    public static final int TIME_OF_GAME = 3 * 1000;
 
     @BindView(R.id.progressTimer)
     ProgressBar progressTimer;
@@ -53,7 +53,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     //     +    if isCorrect = false -> show dialog result of game to User
     //     +    if isCorrect = true -> continue game.
     private boolean isCorrect = false;
-    private TrueFalse currentQuestion;
+    private TrueFalseQuestion currentQuestion;
     private long currentPlayTime;
     private ObjectAnimator animationProgressTimer;
     private boolean checkPauseGame = false;
@@ -200,7 +200,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     private TextView tvScoreInDialog;
     private TextView tvBestScore;
 
-    public void showDialogResultGame(TrueFalse currentQuestion) {
+    public void showDialogResultGame(TrueFalseQuestion currentQuestion) {
         android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(this);
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_result_game, null);
         dialogBuilder.setView(dialogView);
@@ -256,8 +256,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
         alertDialogResultGame.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if(keyCode == KeyEvent.KEYCODE_BACK)
-                {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
                     alertDialogResultGame.dismiss();
                     finish();
                 }

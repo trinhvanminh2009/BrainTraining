@@ -7,7 +7,7 @@ import java.util.List;
  * Created by trinh on 8/31/2017.
  */
 
-public class QuickMathematics {
+public class QuickMathematics{
     private int numberX;
     private int numberY;
     private String operator;

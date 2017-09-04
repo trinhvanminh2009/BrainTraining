@@ -8,7 +8,6 @@ import java.util.Random;
 
 import minh095.braintraining.R;
 import minh095.braintraining.model.pojo.QuickMathematics;
-import minh095.braintraining.model.pojo.TrueFalse;
 
 /**
  * Created by trinh on 8/31/2017.

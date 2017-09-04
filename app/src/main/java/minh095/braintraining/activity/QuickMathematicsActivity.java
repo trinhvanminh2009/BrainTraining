@@ -127,10 +127,9 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     private void stopAnimation() {
         if (animationProgressTimer != null) {
 
-            if(Build.VERSION.SDK_INT >= 19) {
+            if (Build.VERSION.SDK_INT >= 19) {
                 animationProgressTimer.pause();
-            }
-            else {
+            } else {
                 currentPlayTime = animationProgressTimer.getCurrentPlayTime();
                 isCorrect = true;
                 checkPauseGame = true;
@@ -140,10 +139,9 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
 
     private void startAnimation() {
         if (animationProgressTimer != null) {
-            if(Build.VERSION.SDK_INT >= 19) {
+            if (Build.VERSION.SDK_INT >= 19) {
                 animationProgressTimer.resume();
-            }
-            else {
+            } else {
                 animationProgressTimer.start();
                 animationProgressTimer.setCurrentPlayTime(currentPlayTime);
                 isCorrect = false;
@@ -153,6 +151,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
         }
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -316,7 +315,6 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     }
 
 
-
     android.support.v7.app.AlertDialog alertDialogResultGame;
     TextView tvWrongAnswer;
     TextView tvCorrectAnswer;
@@ -421,16 +419,13 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
         alertDialogResultGame.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if(keyCode == KeyEvent.KEYCODE_BACK)
-                {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
                     alertDialogResultGame.dismiss();
                     finish();
                 }
                 return true;
             }
         });
-
-
     }
 
 

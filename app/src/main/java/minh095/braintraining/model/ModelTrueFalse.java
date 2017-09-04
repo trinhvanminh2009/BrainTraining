@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import minh095.braintraining.R;
-import minh095.braintraining.model.pojo.TrueFalse;
+import minh095.braintraining.model.pojo.TrueFalseQuestion;
 
 /**
  * Created by trinh on 8/28/2017.
@@ -15,18 +15,18 @@ import minh095.braintraining.model.pojo.TrueFalse;
 
 public class ModelTrueFalse {
 
-    public static TrueFalse getTrueFalseQuestion(Context context)
+    public static TrueFalseQuestion getTrueFalseQuestion(Context context)
     {
-        List<TrueFalse> trueFalseList = ModelTrueFalse.randomTrueFalse(context, 30);
+        List<TrueFalseQuestion> trueFalseList = ModelTrueFalse.randomTrueFalse(context, 30);
         int index = new Random().nextInt(trueFalseList.size());
         return trueFalseList.get(index);
     }
-    private static List<TrueFalse> randomTrueFalse(Context context,int currentSore){
+    private static List<TrueFalseQuestion> randomTrueFalse(Context context, int currentSore){
         ArrayList<String>levelList = new ArrayList<>();
         ArrayList<String>operatorsEasyList = new ArrayList<>();
         ArrayList<String>operatorsNormalList = new ArrayList<>();
         ArrayList<String>operatorsHardList = new ArrayList<>();
-        List<TrueFalse>trueFalseList = new ArrayList<>();
+        List<TrueFalseQuestion>trueFalseList = new ArrayList<>();
         Random random = new Random();
         operatorsEasyList.add(context.getResources().getString(R.string.addition));
         operatorsEasyList.add(context.getResources().getString(R.string.subtraction));
@@ -55,7 +55,7 @@ public class ModelTrueFalse {
                 int randomEasyY = random.nextInt(10)+1;
                 int randomEasyResult = random.nextInt(10)+1;
                 currentOperator = operatorsEasyList.get(random.nextInt(operatorsEasyList.size()));
-                TrueFalse trueFalseEasy = new TrueFalse(randomEasyX,randomEasyY, currentOperator,randomEasyResult,levelList.get(0));
+                TrueFalseQuestion trueFalseEasy = new TrueFalseQuestion(randomEasyX,randomEasyY, currentOperator,randomEasyResult,levelList.get(0));
                 switch (currentOperator)
                 {
                     case "+":
@@ -93,7 +93,7 @@ public class ModelTrueFalse {
                 int randomNormalY = random.nextInt(20)+1;
                 int randomNormalResult = random.nextInt(40)+1;
                 currentOperator = operatorsNormalList.get(random.nextInt(operatorsNormalList.size()));
-                TrueFalse trueFalseNormal = new TrueFalse(randomNormalX,randomNormalY, currentOperator,randomNormalResult,levelList.get(1));
+                TrueFalseQuestion trueFalseNormal = new TrueFalseQuestion(randomNormalX,randomNormalY, currentOperator,randomNormalResult,levelList.get(1));
                 switch (currentOperator)
                 {
                     case "+":
@@ -153,7 +153,7 @@ public class ModelTrueFalse {
                         }
                     }
                 }
-                TrueFalse trueFalseHard = new TrueFalse(randomHardX,randomHardY, currentOperator,randomHardResult,levelList.get(2));
+                TrueFalseQuestion trueFalseHard = new TrueFalseQuestion(randomHardX,randomHardY, currentOperator,randomHardResult,levelList.get(2));
                 switch (currentOperator)
                 {
                     case "+":
@@ -204,7 +204,7 @@ public class ModelTrueFalse {
         return trueFalseList;
     }
 
-    private int countTrue(List<TrueFalse>trueFalseList)
+    private int countTrue(List<TrueFalseQuestion>trueFalseList)
     {
         int count = 0;
         for(int i = 0 ; i<trueFalseList.size() ; i++)
@@ -217,7 +217,7 @@ public class ModelTrueFalse {
         return count;
     }
 
-    private int countFalse(List<TrueFalse>trueFalseList)
+    private int countFalse(List<TrueFalseQuestion>trueFalseList)
     {
         int count = 0;
         for(int i = 0 ; i<trueFalseList.size() ; i++)
@@ -232,10 +232,10 @@ public class ModelTrueFalse {
 
     /**This function to make sure list true/false balance
      * */
-    private static List<TrueFalse> balanceTrueFalse(List<TrueFalse>trueFalseList, int currentScore)
+    private static List<TrueFalseQuestion> balanceTrueFalse(List<TrueFalseQuestion>trueFalseList, int currentScore)
     {
 
-        List<TrueFalse>resultList = new ArrayList<>();
+        List<TrueFalseQuestion>resultList = new ArrayList<>();
         int countTrue = 0;
 
         if(currentScore <= 10)

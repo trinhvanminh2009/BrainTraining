@@ -2,16 +2,30 @@ package minh095.braintraining.model.database;
 
 import android.graphics.Bitmap;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import minh095.braintraining.model.pojo.Game;
 
 /**
  * Created by trinh on 8/30/2017.
  */
 
 public class User extends RealmObject {
+    @PrimaryKey
     private String userName;
-    private String level;
-    private int bestScoreTrueFalse;
+    private RealmList<Game> gameList;
+
+    public RealmList<Game> getGameList() {
+        return gameList;
+    }
+
+    public void setGameList(RealmList<Game> gameList) {
+        this.gameList = gameList;
+    }
 
     public String getUserName() {
         return userName;
@@ -21,19 +35,5 @@ public class User extends RealmObject {
         this.userName = userName;
     }
 
-    public String getLevel() {
-        return level;
-    }
 
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public int getBestScoreTrueFalse() {
-        return bestScoreTrueFalse;
-    }
-
-    public void setBestScoreTrueFalse(int bestScoreTrueFalse) {
-        this.bestScoreTrueFalse = bestScoreTrueFalse;
-    }
 }

@@ -1,12 +1,10 @@
 package minh095.braintraining.model.pojo;
 
-import java.util.ArrayList;
-
 /**
  * Created by trinh on 8/28/2017.
  */
 
-public class TrueFalse {
+public class TrueFalseQuestion{
     private int numberX;
     private int numberY;
     private String operator;
@@ -14,7 +12,7 @@ public class TrueFalse {
     private String level;
     private boolean trueOrFalse;
 
-    public TrueFalse(int numberX, int numberY, String operator, int result, String level) {
+    public TrueFalseQuestion(int numberX, int numberY, String operator, int result, String level) {
         this.numberX = numberX;
         this.numberY = numberY;
         this.operator = operator;
