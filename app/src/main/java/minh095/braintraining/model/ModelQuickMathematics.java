@@ -65,6 +65,7 @@ public class ModelQuickMathematics {
                     result = randomX - randomY;
                     break;
             }
+            //Create 3 list for 3 positions. Make sure it doesn't have duplicate result.
             for (int i = 0; i < 10; i++) {
                 if (listWrongResult.size() < 3) {
                     int randomWrongEasyResult = random.nextInt(10) + 1;
@@ -87,7 +88,7 @@ public class ModelQuickMathematics {
                 }
             }
             QuickMathematics quickMathematics = new QuickMathematics(randomX, randomY,
-                    currentOperator, result,listWrongX,listWrongY, listWrongResult, randomUnknownPosition);
+                    currentOperator, result, listWrongX, listWrongY, listWrongResult, randomUnknownPosition);
             quickMathematicsList.add(quickMathematics);
 
         }
@@ -109,8 +110,7 @@ public class ModelQuickMathematics {
                     break;
             }
             for (int i = 0; i < 10; i++) {
-                if(listWrongResult.size() <3)
-                {
+                if (listWrongResult.size() < 3) {
                     int randomWrongEasyResult = random.nextInt(50) + 1;
                     if (randomWrongEasyResult != result && !listWrongResult.contains(randomWrongEasyResult)) {
                         listWrongResult.add(randomWrongEasyResult);
@@ -134,7 +134,7 @@ public class ModelQuickMathematics {
 
             }
             QuickMathematics quickMathematics = new QuickMathematics(randomX, randomY,
-                    currentOperator, result,listWrongX,listWrongY, listWrongResult, randomUnknownPosition);
+                    currentOperator, result, listWrongX, listWrongY, listWrongResult, randomUnknownPosition);
 
             quickMathematicsList.add(quickMathematics);
         }
@@ -164,12 +164,21 @@ public class ModelQuickMathematics {
                     result = randomX * randomY;
                     break;
                 case "/":
-                    result = randomX / randomY;
+                    //Only for division operator. Make sure x%y ==0 
+                    double numberX = random.nextInt(99) + 1;
+                    double numberY = random.nextInt(99) + 1;
+                    while ((numberX % numberY) != 0) {
+                        numberX = random.nextInt(99) + 1;
+                        numberY = random.nextInt(99) + 1;
+                    }
+                    randomX = (int) numberX;
+                    randomY = (int) numberY;
+                    result = (int) numberX / (int) numberY;
                     break;
+
             }
             for (int i = 0; i < 10; i++) {
-                if(listWrongResult.size() <3)
-                {
+                if (listWrongResult.size() < 3) {
                     int randomWrongEasyResult = random.nextInt(99) + 1;
                     if (randomWrongEasyResult != result && !listWrongResult.contains(randomWrongEasyResult)) {
                         listWrongResult.add(randomWrongEasyResult);
@@ -193,16 +202,14 @@ public class ModelQuickMathematics {
 
             }
             QuickMathematics quickMathematics = new QuickMathematics(randomX, randomY,
-                    currentOperator, result,listWrongX,listWrongY, listWrongResult, randomUnknownPosition);
+                    currentOperator, result, listWrongX, listWrongY, listWrongResult, randomUnknownPosition);
             quickMathematicsList.add(quickMathematics);
-
-
         }
         return quickMathematicsList;
     }
 
     public static QuickMathematics getQuestionMathematics(Context context) {
-        List<QuickMathematics> quickMathematicsList = ModelQuickMathematics.randomQuickMathematics(context, 5);
+        List<QuickMathematics> quickMathematicsList = ModelQuickMathematics.randomQuickMathematics(context, 45);
         int index = new Random().nextInt(quickMathematicsList.size());
         return quickMathematicsList.get(index);
     }
