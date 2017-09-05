@@ -15,9 +15,10 @@ import minh095.braintraining.model.pojo.QuickMathematics;
 
 public class ModelQuickMathematics {
 
-    /**There are three difficulty levels with different operators
+    /**
+     * There are three difficulty levels with different operators
      * randomUnknownPosition to know where is unknown number in that question
-     * */
+     */
     public static List<QuickMathematics> randomQuickMathematics(Context context, int currentScore) {
         List<QuickMathematics> quickMathematicsList = new ArrayList<>();
         ArrayList<String> levelList = new ArrayList<>();
@@ -49,127 +50,159 @@ public class ModelQuickMathematics {
         int randomUnknownPosition;
         int result = 0;
         ArrayList<Integer> listWrongResult = new ArrayList<>(3);
+        ArrayList<Integer> listWrongX = new ArrayList<>(3);
+        ArrayList<Integer> listWrongY = new ArrayList<>(3);
         if (currentScore <= 10) {
-            while (quickMathematicsList.size() < 200) {
-                randomX = random.nextInt(10) + 1;
-                randomY = random.nextInt(10) + 1;
-                randomUnknownPosition = random.nextInt(3) + 1;
-                currentOperator = operatorsEasyList.get(random.nextInt(operatorsEasyList.size()));
-                switch (currentOperator) {
-                    case "+":
-                        result = randomX + randomY;
-                        break;
-                    case "-":
-                        result = randomX - randomY;
-                        break;
-                }
-                for (int i = 0; i < 10; i++) {
+            randomX = random.nextInt(10) + 1;
+            randomY = random.nextInt(10) + 1;
+            randomUnknownPosition = random.nextInt(3) + 1;
+            currentOperator = operatorsEasyList.get(random.nextInt(operatorsEasyList.size()));
+            switch (currentOperator) {
+                case "+":
+                    result = randomX + randomY;
+                    break;
+                case "-":
+                    result = randomX - randomY;
+                    break;
+            }
+            for (int i = 0; i < 10; i++) {
+                if (listWrongResult.size() < 3) {
                     int randomWrongEasyResult = random.nextInt(10) + 1;
                     if (randomWrongEasyResult != result && !listWrongResult.contains(randomWrongEasyResult)) {
                         listWrongResult.add(randomWrongEasyResult);
                     }
-                    if (listWrongResult.size() == 3) {
-                        break;
+                }
+                if (listWrongX.size() < 3) {
+                    int randomWrongX = random.nextInt(10) + 1;
+                    if (randomWrongX != randomX && !listWrongX.contains(randomWrongX)) {
+                        listWrongX.add(randomWrongX);
                     }
-
                 }
-                QuickMathematics quickMathematics = new QuickMathematics(randomX, randomY,
-                        currentOperator, result, listWrongResult, randomUnknownPosition);
 
-                quickMathematicsList.add(quickMathematics);
-
+                if (listWrongY.size() < 3) {
+                    int randomWrongY = random.nextInt(10) + 1;
+                    if (randomWrongY != randomY && !listWrongY.contains(randomWrongY)) {
+                        listWrongY.add(randomWrongY);
+                    }
+                }
             }
+            QuickMathematics quickMathematics = new QuickMathematics(randomX, randomY,
+                    currentOperator, result,listWrongX,listWrongY, listWrongResult, randomUnknownPosition);
+            quickMathematicsList.add(quickMathematics);
+
         }
+
         if (currentScore > 10 && currentScore <= 30) {
-            while (quickMathematicsList.size() < 200) {
-                randomX = random.nextInt(30) + 1;
-                randomY = random.nextInt(30) + 1;
-                randomUnknownPosition = random.nextInt(3) + 1;
-                currentOperator = operatorsNormalList.get(random.nextInt(operatorsNormalList.size()));
-                switch (currentOperator) {
-                    case "+":
-                        result = randomX + randomY;
-                        break;
-                    case "-":
-                        result = randomX - randomY;
-                        break;
-                    case "*":
-                        result = randomX * randomY;
-                        break;
-                }
-                for (int i = 0; i < 10; i++) {
+            randomX = random.nextInt(30) + 1;
+            randomY = random.nextInt(30) + 1;
+            randomUnknownPosition = random.nextInt(3) + 1;
+            currentOperator = operatorsNormalList.get(random.nextInt(operatorsNormalList.size()));
+            switch (currentOperator) {
+                case "+":
+                    result = randomX + randomY;
+                    break;
+                case "-":
+                    result = randomX - randomY;
+                    break;
+                case "*":
+                    result = randomX * randomY;
+                    break;
+            }
+            for (int i = 0; i < 10; i++) {
+                if(listWrongResult.size() <3)
+                {
                     int randomWrongEasyResult = random.nextInt(50) + 1;
-                    if (randomWrongEasyResult != result) {
+                    if (randomWrongEasyResult != result && !listWrongResult.contains(randomWrongEasyResult)) {
                         listWrongResult.add(randomWrongEasyResult);
                     }
-                    if (listWrongResult.size() == 3) {
-                        break;
-                    }
-
                 }
-                QuickMathematics quickMathematics = new QuickMathematics(randomX, randomY,
-                        currentOperator, result, listWrongResult, randomUnknownPosition);
 
-                quickMathematicsList.add(quickMathematics);
+
+                if (listWrongX.size() < 3) {
+                    int randomWrongX = random.nextInt(50) + 1;
+                    if (randomWrongX != randomX && !listWrongX.contains(randomWrongX)) {
+                        listWrongX.add(randomWrongX);
+                    }
+                }
+
+                if (listWrongY.size() < 3) {
+                    int randomWrongY = random.nextInt(50) + 1;
+                    if (randomWrongY != randomY && !listWrongY.contains(randomWrongY)) {
+                        listWrongY.add(randomWrongY);
+                    }
+                }
+
             }
+            QuickMathematics quickMathematics = new QuickMathematics(randomX, randomY,
+                    currentOperator, result,listWrongX,listWrongY, listWrongResult, randomUnknownPosition);
 
+            quickMathematicsList.add(quickMathematics);
         }
 
-        if (currentScore > 30) {
-            while (quickMathematicsList.size() < 200) {
-                while (quickMathematicsList.size() < 200) {
-                    randomX = random.nextInt(99) + 1;
-                    randomY = random.nextInt(99) + 1;
-                    randomUnknownPosition = random.nextInt(3) + 1;
-                    currentOperator = operatorsHardList.get(random.nextInt(operatorsHardList.size()));
-                    if(currentOperator.equals("/"))
-                    {
-                        if(randomX % randomY != 0)
-                        {
-                            while (randomX % randomY == 0)
-                            {
-                                randomX = random.nextInt(99) + 1;
-                                randomY = random.nextInt(99) + 1;
-                            }
-                        }
-                    }
-                    switch (currentOperator) {
-                        case "+":
-                            result = randomX + randomY;
-                            break;
-                        case "-":
-                            result = randomX - randomY;
-                            break;
-                        case "*":
-                            result = randomX * randomY;
-                            break;
-                        case "/":
-                            result = randomX * randomY;
-                            break;
-                    }
-                    for (int i = 0; i < 10; i++) {
-                        int randomWrongEasyResult = random.nextInt(99) + 1;
-                        if (randomWrongEasyResult != result) {
-                            listWrongResult.add(randomWrongEasyResult);
-                        }
-                        if (listWrongResult.size() == 3) {
-                            break;
-                        }
 
+        if (currentScore > 30) {
+            randomX = random.nextInt(99) + 1;
+            randomY = random.nextInt(99) + 1;
+            randomUnknownPosition = random.nextInt(3) + 1;
+            currentOperator = operatorsHardList.get(random.nextInt(operatorsHardList.size()));
+            if (currentOperator.equals("/")) {
+                if (randomX % randomY != 0) {
+                    while (randomX % randomY == 0) {
+                        randomX = random.nextInt(99) + 1;
+                        randomY = random.nextInt(99) + 1;
                     }
-                    QuickMathematics quickMathematics = new QuickMathematics(randomX, randomY,
-                            currentOperator, result, listWrongResult, randomUnknownPosition);
-                    quickMathematicsList.add(quickMathematics);
                 }
             }
+            switch (currentOperator) {
+                case "+":
+                    result = randomX + randomY;
+                    break;
+                case "-":
+                    result = randomX - randomY;
+                    break;
+                case "*":
+                    result = randomX * randomY;
+                    break;
+                case "/":
+                    result = randomX / randomY;
+                    break;
+            }
+            for (int i = 0; i < 10; i++) {
+                if(listWrongResult.size() <3)
+                {
+                    int randomWrongEasyResult = random.nextInt(99) + 1;
+                    if (randomWrongEasyResult != result && !listWrongResult.contains(randomWrongEasyResult)) {
+                        listWrongResult.add(randomWrongEasyResult);
+                    }
+                }
+
+
+                if (listWrongX.size() < 3) {
+                    int randomWrongX = random.nextInt(99) + 1;
+                    if (randomWrongX != randomX && !listWrongX.contains(randomWrongX)) {
+                        listWrongX.add(randomWrongX);
+                    }
+                }
+
+                if (listWrongY.size() < 3) {
+                    int randomWrongY = random.nextInt(99) + 1;
+                    if (randomWrongY != randomY && !listWrongY.contains(randomWrongY)) {
+                        listWrongY.add(randomWrongY);
+                    }
+                }
+
+            }
+            QuickMathematics quickMathematics = new QuickMathematics(randomX, randomY,
+                    currentOperator, result,listWrongX,listWrongY, listWrongResult, randomUnknownPosition);
+            quickMathematicsList.add(quickMathematics);
+
 
         }
         return quickMathematicsList;
     }
 
-    public static QuickMathematics getQuestionMathematics(Context context)
-    {
-        List<QuickMathematics> quickMathematicsList = ModelQuickMathematics.randomQuickMathematics(context, 30);
+    public static QuickMathematics getQuestionMathematics(Context context) {
+        List<QuickMathematics> quickMathematicsList = ModelQuickMathematics.randomQuickMathematics(context, 5);
         int index = new Random().nextInt(quickMathematicsList.size());
         return quickMathematicsList.get(index);
     }

@@ -14,16 +14,36 @@ public class QuickMathematics{
     private int result;
     private String level;
     private ArrayList<Integer> listWrongResult;
+    private ArrayList<Integer> listWrongX;
+    private ArrayList<Integer> listWrongY;
     private int unknownPosition;
 
-    public QuickMathematics(int numberX, int numberY, String operator, int result,
-                            ArrayList<Integer> listWrongResult, int unknownPosition) {
+    public QuickMathematics(int numberX, int numberY, String operator, int result,ArrayList<Integer>listWrongX,
+                            ArrayList<Integer>listWrongY, ArrayList<Integer> listWrongResult, int unknownPosition) {
         this.numberX = numberX;
         this.numberY = numberY;
         this.operator = operator;
         this.result = result;
+        this.listWrongX = listWrongX;
+        this.listWrongY = listWrongY;
         this.listWrongResult = listWrongResult;
         this.unknownPosition = unknownPosition;
+    }
+
+    public ArrayList<Integer> getListWrongX() {
+        return listWrongX;
+    }
+
+    public void setListWrongX(ArrayList<Integer> listWrongX) {
+        this.listWrongX = listWrongX;
+    }
+
+    public ArrayList<Integer> getListWrongY() {
+        return listWrongY;
+    }
+
+    public void setListWrongY(ArrayList<Integer> listWrongY) {
+        this.listWrongY = listWrongY;
     }
 
     public int getUnknownPosition() {

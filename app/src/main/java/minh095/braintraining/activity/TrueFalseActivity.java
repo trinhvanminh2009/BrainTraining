@@ -58,6 +58,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     private ObjectAnimator animationProgressTimer;
     private boolean checkPauseGame = false;
     CountDownAnimation countDownAnimation;
+    private boolean checkDialogResultGameIsShowing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,7 +252,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
         tvScoreInDialog.setText(tvScore.getText().toString());
         alertDialogResultGame.show();
-
+        checkDialogResultGameIsShowing = true;
         //Prevent user using back button of android devices to play game again
         alertDialogResultGame.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
@@ -269,11 +270,14 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     @Override
     public void onPause() {
         if (alertDialogResultGame != null) {
-            alertDialogResultGame.dismiss();
+            if(!checkDialogResultGameIsShowing)
+            {
+                alertDialogResultGame.dismiss();
+            }
+
         }
         stopAnimation();
         super.onPause();
-
     }
 
     @Override
@@ -292,6 +296,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
             isCorrect = false;
         }
         checkPauseGame = false;
+        checkDialogResultGameIsShowing = false;
 
     }
 

@@ -17,10 +17,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import java.util.List;
 import java.util.Random;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import minh095.braintraining.R;
@@ -74,6 +71,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     String question = "";
     private long currentPlayTime;
     private boolean checkPauseGame = false;
+    private boolean checkDialogResultGameIsShowing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +167,9 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     @Override
     public void onPause() {
         if (alertDialogResultGame != null) {
-            alertDialogResultGame.dismiss();
+            if(!checkDialogResultGameIsShowing) {
+                alertDialogResultGame.dismiss();
+            }
         }
         stopAnimation();
         super.onPause();
@@ -181,6 +181,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
         startAnimation();
         super.onResume();
     }
+
 
     @OnClick({R.id.btnAnswerOne, R.id.btnAnswerTwo, R.id.btnAnswerThree, R.id.btnAnswerFour})
     public void eventClick(View v) {
@@ -415,6 +416,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
             }
         }
         alertDialogResultGame.show();
+        checkDialogResultGameIsShowing = true;
         //Prevent user using back button of android devices to play game again
         alertDialogResultGame.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
@@ -426,6 +428,8 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
                 return true;
             }
         });
+
+
     }
 
 
@@ -448,26 +452,26 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
                     switch (randomPositionCorrectAnswer) {
                         case 1:
                             btnAnswerOne.setText(String.valueOf(currentQuestion.getNumberX()));
-                            btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongResult().get(0)));
-                            btnAnswerThree.setText(String.valueOf(currentQuestion.getListWrongResult().get(1)));
-                            btnAnswerFour.setText(String.valueOf(currentQuestion.getListWrongResult().get(2)));
+                            btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongX().get(0)));
+                            btnAnswerThree.setText(String.valueOf(currentQuestion.getListWrongX().get(1)));
+                            btnAnswerFour.setText(String.valueOf(currentQuestion.getListWrongX().get(2)));
                             break;
                         case 2:
-                            btnAnswerOne.setText(String.valueOf(currentQuestion.getListWrongResult().get(0)));
+                            btnAnswerOne.setText(String.valueOf(currentQuestion.getListWrongX().get(0)));
                             btnAnswerTwo.setText(String.valueOf(currentQuestion.getNumberX()));
-                            btnAnswerThree.setText(String.valueOf(currentQuestion.getListWrongResult().get(1)));
-                            btnAnswerFour.setText(String.valueOf(currentQuestion.getListWrongResult().get(2)));
+                            btnAnswerThree.setText(String.valueOf(currentQuestion.getListWrongX().get(1)));
+                            btnAnswerFour.setText(String.valueOf(currentQuestion.getListWrongX().get(2)));
                             break;
                         case 3:
-                            btnAnswerOne.setText(String.valueOf(currentQuestion.getListWrongResult().get(0)));
-                            btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongResult().get(1)));
+                            btnAnswerOne.setText(String.valueOf(currentQuestion.getListWrongX().get(0)));
+                            btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongX().get(1)));
                             btnAnswerThree.setText(String.valueOf(currentQuestion.getNumberX()));
-                            btnAnswerFour.setText(String.valueOf(currentQuestion.getListWrongResult().get(2)));
+                            btnAnswerFour.setText(String.valueOf(currentQuestion.getListWrongX().get(2)));
                             break;
                         case 4:
-                            btnAnswerOne.setText(String.valueOf(currentQuestion.getListWrongResult().get(0)));
-                            btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongResult().get(1)));
-                            btnAnswerThree.setText(String.valueOf(currentQuestion.getListWrongResult().get(1)));
+                            btnAnswerOne.setText(String.valueOf(currentQuestion.getListWrongX().get(0)));
+                            btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongX().get(1)));
+                            btnAnswerThree.setText(String.valueOf(currentQuestion.getListWrongX().get(2)));
                             btnAnswerFour.setText(String.valueOf(currentQuestion.getNumberX()));
                             break;
                     }
@@ -483,26 +487,26 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
                     switch (randomPositionCorrectAnswer) {
                         case 1:
                             btnAnswerOne.setText(String.valueOf(currentQuestion.getNumberY()));
-                            btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongResult().get(0)));
-                            btnAnswerThree.setText(String.valueOf(currentQuestion.getListWrongResult().get(1)));
-                            btnAnswerFour.setText(String.valueOf(currentQuestion.getListWrongResult().get(2)));
+                            btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongY().get(0)));
+                            btnAnswerThree.setText(String.valueOf(currentQuestion.getListWrongY().get(1)));
+                            btnAnswerFour.setText(String.valueOf(currentQuestion.getListWrongY().get(2)));
                             break;
                         case 2:
-                            btnAnswerOne.setText(String.valueOf(currentQuestion.getListWrongResult().get(0)));
+                            btnAnswerOne.setText(String.valueOf(currentQuestion.getListWrongY().get(0)));
                             btnAnswerTwo.setText(String.valueOf(currentQuestion.getNumberY()));
-                            btnAnswerThree.setText(String.valueOf(currentQuestion.getListWrongResult().get(1)));
-                            btnAnswerFour.setText(String.valueOf(currentQuestion.getListWrongResult().get(2)));
+                            btnAnswerThree.setText(String.valueOf(currentQuestion.getListWrongY().get(1)));
+                            btnAnswerFour.setText(String.valueOf(currentQuestion.getListWrongY().get(2)));
                             break;
                         case 3:
-                            btnAnswerOne.setText(String.valueOf(currentQuestion.getListWrongResult().get(0)));
-                            btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongResult().get(1)));
+                            btnAnswerOne.setText(String.valueOf(currentQuestion.getListWrongY().get(0)));
+                            btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongY().get(1)));
                             btnAnswerThree.setText(String.valueOf(currentQuestion.getNumberY()));
-                            btnAnswerFour.setText(String.valueOf(currentQuestion.getListWrongResult().get(2)));
+                            btnAnswerFour.setText(String.valueOf(currentQuestion.getListWrongY().get(2)));
                             break;
                         case 4:
-                            btnAnswerOne.setText(String.valueOf(currentQuestion.getListWrongResult().get(0)));
-                            btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongResult().get(1)));
-                            btnAnswerThree.setText(String.valueOf(currentQuestion.getListWrongResult().get(1)));
+                            btnAnswerOne.setText(String.valueOf(currentQuestion.getListWrongY().get(0)));
+                            btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongY().get(1)));
+                            btnAnswerThree.setText(String.valueOf(currentQuestion.getListWrongY().get(2)));
                             btnAnswerFour.setText(String.valueOf(currentQuestion.getNumberY()));
                             break;
                     }
@@ -538,7 +542,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
                         case 4:
                             btnAnswerOne.setText(String.valueOf(currentQuestion.getListWrongResult().get(0)));
                             btnAnswerTwo.setText(String.valueOf(currentQuestion.getListWrongResult().get(1)));
-                            btnAnswerThree.setText(String.valueOf(currentQuestion.getListWrongResult().get(1)));
+                            btnAnswerThree.setText(String.valueOf(currentQuestion.getListWrongResult().get(2)));
                             btnAnswerFour.setText(String.valueOf(currentQuestion.getResult()));
                             break;
                     }
@@ -548,6 +552,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
             isCorrect = false;
         }
         checkPauseGame = false;
+        checkDialogResultGameIsShowing = false;
 
     }
 
