@@ -1,4 +1,4 @@
-package minh095.braintraining.model.pojo;
+package minh095.braintraining.model.database;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

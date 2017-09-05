@@ -1,11 +1,9 @@
 package minh095.braintraining.model;
 
 import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import minh095.braintraining.R;
 import minh095.braintraining.model.pojo.QuickMathematics;
 
@@ -29,7 +27,6 @@ public class ModelQuickMathematics {
 
         operatorsEasyList.add(context.getResources().getString(R.string.addition));
         operatorsEasyList.add(context.getResources().getString(R.string.subtraction));
-
 
         operatorsNormalList.add(context.getResources().getString(R.string.addition));
         operatorsNormalList.add(context.getResources().getString(R.string.subtraction));
@@ -164,7 +161,7 @@ public class ModelQuickMathematics {
                     result = randomX * randomY;
                     break;
                 case "/":
-                    //Only for division operator. Make sure x%y ==0 
+                    //Only for division operator. Make sure x%y ==0
                     double numberX = random.nextInt(99) + 1;
                     double numberY = random.nextInt(99) + 1;
                     while ((numberX % numberY) != 0) {

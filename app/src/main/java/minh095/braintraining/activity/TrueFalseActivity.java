@@ -20,10 +20,14 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmList;
 import minh095.braintraining.R;
 import minh095.braintraining.activity.base.BaseActivityNoToolbar;
 import minh095.braintraining.animation.CountDownAnimation;
 import minh095.braintraining.model.ModelTrueFalse;
+import minh095.braintraining.model.database.Game;
+import minh095.braintraining.model.database.User;
 import minh095.braintraining.model.pojo.TrueFalseQuestion;
 
 public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator.AnimatorListener,
@@ -59,12 +63,21 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     private boolean checkPauseGame = false;
     CountDownAnimation countDownAnimation;
     private boolean checkDialogResultGameIsShowing = false;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_true_false);
+        initRealm();
         initCountDownAnimation();
+    }
+
+    //Init database of realm object
+    private void initRealm() {
+        Realm.init(this);
+        realm = null;
+        realm = Realm.getDefaultInstance();
     }
 
     private void stopAnimation() {
@@ -249,8 +262,21 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
         tvQuestionInDialog.setText(question);
         tvWrongAnswer.setText(wrongAnswer);
         tvCorrectAnswer.setText(correctAnswer);
-
         tvScoreInDialog.setText(tvScore.getText().toString());
+
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Game trueFalseGame = realm.where(Game.class).contains("nameGame", "trueFalseGame").findFirst();
+                if (trueFalseGame.getBestScore() < Integer.parseInt(tvScore.getText().toString())) {
+                    trueFalseGame.setBestScore(Integer.parseInt(tvScore.getText().toString()));
+                }
+                String bestScore = getString(R.string.best_score) + trueFalseGame.getBestScore();
+                tvBestScore.setText(bestScore);
+            }
+        });
+
         alertDialogResultGame.show();
         checkDialogResultGameIsShowing = true;
         //Prevent user using back button of android devices to play game again
@@ -270,8 +296,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     @Override
     public void onPause() {
         if (alertDialogResultGame != null) {
-            if(!checkDialogResultGameIsShowing)
-            {
+            if (!checkDialogResultGameIsShowing) {
                 alertDialogResultGame.dismiss();
             }
 
@@ -325,5 +350,14 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
         }
         setFullTimer();
         startProgressTimer(0);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(alertDialogResultGame != null && alertDialogResultGame.isShowing())
+        {
+            alertDialogResultGame.cancel();
+        }
+        super.onDestroy();
     }
 }

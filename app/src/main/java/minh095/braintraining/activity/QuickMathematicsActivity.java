@@ -17,13 +17,17 @@ import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import java.util.Random;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.realm.Realm;
 import minh095.braintraining.R;
 import minh095.braintraining.activity.base.BaseActivityNoToolbar;
 import minh095.braintraining.animation.CountDownAnimation;
 import minh095.braintraining.model.ModelQuickMathematics;
+import minh095.braintraining.model.database.Game;
 import minh095.braintraining.model.pojo.QuickMathematics;
 
 public class QuickMathematicsActivity extends BaseActivityNoToolbar implements Animator.AnimatorListener,
@@ -72,12 +76,21 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     private long currentPlayTime;
     private boolean checkPauseGame = false;
     private boolean checkDialogResultGameIsShowing = false;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_mathematic);
+        initRealm();
         initCountDownAnimation();
+    }
+
+    //Init database of realm object
+    private void initRealm() {
+        Realm.init(this);
+        realm = null;
+        realm = Realm.getDefaultInstance();
     }
 
     private void initCountDownAnimation() {
@@ -167,7 +180,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     @Override
     public void onPause() {
         if (alertDialogResultGame != null) {
-            if(!checkDialogResultGameIsShowing) {
+            if (!checkDialogResultGameIsShowing) {
                 alertDialogResultGame.dismiss();
             }
         }
@@ -415,6 +428,17 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
                 alertDialogResultGame.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             }
         }
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Game trueFalseGame = realm.where(Game.class).contains("nameGame", "quickMathematicsGame").findFirst();
+                if (trueFalseGame.getBestScore() < Integer.parseInt(tvScore.getText().toString())) {
+                    trueFalseGame.setBestScore(Integer.parseInt(tvScore.getText().toString()));
+                }
+                String bestScore = getString(R.string.best_score) + trueFalseGame.getBestScore();
+                tvBestScore.setText(bestScore);
+            }
+        });
         alertDialogResultGame.show();
         checkDialogResultGameIsShowing = true;
         //Prevent user using back button of android devices to play game again
@@ -582,6 +606,15 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
         }
         setFullTimer();
         startProgressTimer(0);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(alertDialogResultGame != null && alertDialogResultGame.isShowing())
+        {
+            alertDialogResultGame.cancel();
+        }
+        super.onDestroy();
     }
 
 }
