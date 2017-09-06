@@ -5,6 +5,7 @@
     <string name="title_activity_list">ListActivity</string>
     <string name="tv_game_true_false">True / False</string>
     <string name="tv_game_quick_math">Quick Math</string>
+    <string name="tv_game_balance">Balance</string>
     <string name="easy">Easy</string>
     <string name="normal">Normal</string>
     <string name="hard">Hard</string>
@@ -12,9 +13,14 @@
     <string name="subtraction">-</string>
     <string name="multiplication">*</string>
     <string name="division">/</string>
-    <string name="question">Question : </string>
+    <string name="question">Question :&#160;</string>
     <string name="your_answer">Your answer :&#160;</string>
     <string name="correct_answer">Correct answer :&#160;</string>
     <string name="current_score">Score : </string>
     <string name="best_score">Best score :&#160; </string>
+    <string name="equal">=</string>
+    <string name="lessThan">&lt;</string>
+    <string name="greaterThan">&gt;</string>
+    <string name="lessThanOrEqual">&lt;=</string>
+    <string name="greaterThanOrEqual">&gt;=</string>
 </resources>

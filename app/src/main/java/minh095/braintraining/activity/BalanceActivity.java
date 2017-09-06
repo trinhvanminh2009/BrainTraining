@@ -4,10 +4,10 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.os.Build;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -18,22 +18,24 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.Random;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
-import io.realm.RealmList;
 import minh095.braintraining.R;
 import minh095.braintraining.activity.base.BaseActivityNoToolbar;
 import minh095.braintraining.animation.CountDownAnimation;
+import minh095.braintraining.model.ModelBalanceQuestion;
 import minh095.braintraining.model.ModelTrueFalse;
 import minh095.braintraining.model.database.Game;
-import minh095.braintraining.model.database.User;
+import minh095.braintraining.model.pojo.BalanceQuestion;
 import minh095.braintraining.model.pojo.TrueFalseQuestion;
 
-public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator.AnimatorListener,
+public class BalanceActivity extends BaseActivityNoToolbar implements Animator.AnimatorListener,
         CountDownAnimation.CountDownListener {
 
-    public static final int TIME_OF_GAME = 3 * 1000;
+    public static final int TIME_OF_GAME = 6 * 1000;
 
     @BindView(R.id.progressTimer)
     ProgressBar progressTimer;
@@ -49,27 +51,27 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
     @BindView(R.id.layoutAnswer)
     LinearLayout layoutAnswer;
+
+    @BindView(R.id.btnAnswerOne)
+    TextView btnAnswerOne;
+
+    @BindView(R.id.btnAnswerTwo)
+    TextView btnAnswerTwo;
+
     private long currentPlayTime;
     private ObjectAnimator animationProgressTimer;
     private boolean checkPauseGame = false;
     CountDownAnimation countDownAnimation;
     private boolean checkDialogResultGameIsShowing = false;
     private Realm realm;
-
-    // isCorrect default = false
-    // When start animation isCorrect = false
-    // When click button False or True button - if user choose correct Answer -> isCorrect = true .
-    // Event on end Animation
-    //     +    if isCorrect = false -> show dialog result of game to User
-    //     +    if isCorrect = true -> continue game.
+    private BalanceQuestion currentQuestion;
     private boolean isCorrect = false;
-    private TrueFalseQuestion currentQuestion;
-
+    int randomPositionCorrectAnswer = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_true_false);
+        setContentView(R.layout.activity_balance);
         initRealm();
         initCountDownAnimation();
     }
@@ -108,11 +110,31 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     }
 
     @Override
+    public void onPause() {
+        if (alertDialogResultGame != null) {
+            if (!checkDialogResultGameIsShowing) {
+                alertDialogResultGame.dismiss();
+            }
+        }
+        stopAnimation();
+        super.onPause();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         startAnimation();
 
     }
+
+    @Override
+    protected void onDestroy() {
+        if (alertDialogResultGame != null && alertDialogResultGame.isShowing()) {
+            alertDialogResultGame.cancel();
+        }
+        super.onDestroy();
+    }
+
 
     private void initCountDownAnimation() {
         countDownAnimation = new CountDownAnimation(tvCountDownStartGame, 3);
@@ -143,7 +165,6 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
         }
     }
 
-
     private void startProgressTimer(final int progressTo) {
         if (progressTimer != null) {
             if (animationProgressTimer == null) {
@@ -157,22 +178,66 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+    public void onAnimationStart(Animator animation) {
+        if (!checkPauseGame) {
+            Random random = new Random();
+            randomPositionCorrectAnswer = random.nextInt(2) + 1;
+            currentQuestion = ModelBalanceQuestion.getBalanceQuestion(getApplicationContext());
+            String question = currentQuestion.getNumberX()
+                    + " ? "
+                    + currentQuestion.getNumberY();
+
+            switch (randomPositionCorrectAnswer) {
+                case 1:
+                    btnAnswerOne.setText(currentQuestion.getCorrectAnswer());
+                    btnAnswerTwo.setText(currentQuestion.getWrongAnswer());
+                    break;
+                case 2:
+                    btnAnswerOne.setText(currentQuestion.getWrongAnswer());
+                    btnAnswerTwo.setText(currentQuestion.getCorrectAnswer());
+                    break;
+            }
+
+            tvQuestion.setText(question);
+            isCorrect = false;
         }
-        return super.onOptionsItemSelected(item);
+        checkPauseGame = false;
+        checkDialogResultGameIsShowing = false;
     }
 
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        if (!isCorrect) {
+            showDialogResultGame(currentQuestion);
+        }
+    }
 
-    @OnClick({R.id.btnFalse, R.id.btnTrue})
+    @Override
+    public void onAnimationCancel(Animator animation) {
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animator animation) {
+
+    }
+
+    @Override
+    public void onCountDownEnd(CountDownAnimation animation) {
+        if (tvCountDownStartGame != null && tvQuestion != null && layoutAnswer != null) {
+            tvCountDownStartGame.setVisibility(View.GONE);
+            tvQuestion.setVisibility(View.VISIBLE);
+            layoutAnswer.setVisibility(View.VISIBLE);
+        }
+        setFullTimer();
+        startProgressTimer(0);
+    }
+
+    @OnClick({R.id.btnAnswerOne, R.id.btnAnswerTwo})
     public void eventClick(View v) {
         switch (v.getId()) {
-            case R.id.btnFalse:
-
-                if (!currentQuestion.isTrueOrFalse()) {
+            case R.id.btnAnswerOne:
+                if (randomPositionCorrectAnswer == 1) {
                     setFullTimer();
                     tvScore.setText(String.valueOf(Integer.parseInt(tvScore.getText().toString()) + 1));
                     isCorrect = true;
@@ -182,14 +247,16 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
                         startProgressTimer(0);
                     }
                 } else {
+                    btnAnswerOne.setBackgroundResource(R.drawable.background_button_check_correct);
+                    btnAnswerTwo.setBackgroundResource(R.drawable.background_button_check_wrong);
                     if (animationProgressTimer != null) {
                         animationProgressTimer.cancel();
                     }
                     showDialogResultGame(currentQuestion);
                 }
                 break;
-            case R.id.btnTrue:
-                if (currentQuestion.isTrueOrFalse()) {
+            case R.id.btnAnswerTwo:
+                if (randomPositionCorrectAnswer == 2) {
                     setFullTimer();
                     tvScore.setText(String.valueOf(Integer.parseInt(tvScore.getText().toString()) + 1));
                     isCorrect = true;
@@ -199,6 +266,8 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
                         startProgressTimer(0);
                     }
                 } else {
+                    btnAnswerOne.setBackgroundResource(R.drawable.background_button_check_wrong);
+                    btnAnswerTwo.setBackgroundResource(R.drawable.background_button_check_correct);
                     if (animationProgressTimer != null) {
                         animationProgressTimer.cancel();
                     }
@@ -215,7 +284,7 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
     private TextView tvScoreInDialog;
     private TextView tvBestScore;
 
-    public void showDialogResultGame(TrueFalseQuestion currentQuestion) {
+    public void showDialogResultGame(BalanceQuestion currentQuestion) {
         android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(this);
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_result_true_false_game, null);
         dialogBuilder.setView(dialogView);
@@ -225,6 +294,18 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
             tvCorrectAnswer = (TextView) dialogView.findViewById(R.id.tvCorrectAnswer);
             tvScoreInDialog = (TextView) dialogView.findViewById(R.id.tvScore);
             tvBestScore = (TextView) dialogView.findViewById(R.id.tvBestScore);
+        }
+        String question = currentQuestion.getNumberX()
+                + " ? "
+                + currentQuestion.getNumberY();
+        String wrongAnswer = getString(R.string.your_answer) + currentQuestion.getWrongAnswer();
+        String correctAnswer = getString(R.string.correct_answer) + currentQuestion.getCorrectAnswer();
+        String currentQuestionResult = getString(R.string.question) + question;
+        tvQuestionInDialog.setText(currentQuestionResult);
+        tvWrongAnswer.setText(wrongAnswer);
+        tvCorrectAnswer.setText(correctAnswer);
+        tvScoreInDialog.setText(tvScore.getText().toString());
+        if (alertDialogResultGame == null) {
             dialogView.findViewById(R.id.btnGoToMenu).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -236,6 +317,8 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
                 public void onClick(View v) {
                     if (alertDialogResultGame != null) {
                         if (alertDialogResultGame.isShowing()) {
+                            btnAnswerOne.setBackgroundResource(R.drawable.background_button_answer);
+                            btnAnswerTwo.setBackgroundResource(R.drawable.background_button_answer);
                             alertDialogResultGame.dismiss();
                         }
                     }
@@ -248,28 +331,10 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
                 alertDialogResultGame.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             }
         }
-        String question = getString(R.string.question)
-                + " "
-                + currentQuestion.getNumberX()
-                + " "
-                + currentQuestion.getOperator()
-                + " "
-                + currentQuestion.getNumberY()
-                + " = "
-                + currentQuestion.getResult();
-        String wrongAnswer = getString(R.string.your_answer) + !currentQuestion.isTrueOrFalse();
-        String correctAnswer = getString(R.string.correct_answer) + currentQuestion.isTrueOrFalse();
-
-        tvQuestionInDialog.setText(question);
-        tvWrongAnswer.setText(wrongAnswer);
-        tvCorrectAnswer.setText(correctAnswer);
-        tvScoreInDialog.setText(tvScore.getText().toString());
-
-
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Game trueFalseGame = realm.where(Game.class).contains("nameGame", "trueFalseGame").findFirst();
+                Game trueFalseGame = realm.where(Game.class).contains("nameGame", "balanceGame").findFirst();
                 if (trueFalseGame.getBestScore() < Integer.parseInt(tvScore.getText().toString())) {
                     trueFalseGame.setBestScore(Integer.parseInt(tvScore.getText().toString()));
                 }
@@ -294,69 +359,4 @@ public class TrueFalseActivity extends BaseActivityNoToolbar implements Animator
 
     }
 
-    @Override
-    public void onPause() {
-        if (alertDialogResultGame != null) {
-            if (!checkDialogResultGameIsShowing) {
-                alertDialogResultGame.dismiss();
-            }
-        }
-        stopAnimation();
-        super.onPause();
-    }
-
-    @Override
-    public void onAnimationStart(Animator animation) {
-        if (!checkPauseGame) {
-            currentQuestion = ModelTrueFalse.getTrueFalseQuestion(getApplicationContext());
-            String question = currentQuestion.getNumberX()
-                    + " "
-                    + currentQuestion.getOperator()
-                    + " "
-                    + currentQuestion.getNumberY()
-                    + " = "
-                    + currentQuestion.getResult();
-
-            tvQuestion.setText(question);
-            isCorrect = false;
-        }
-        checkPauseGame = false;
-        checkDialogResultGameIsShowing = false;
-
-    }
-
-    @Override
-    public void onAnimationEnd(Animator animation) {
-        if (!isCorrect) {
-            showDialogResultGame(currentQuestion);
-        }
-    }
-
-    @Override
-    public void onAnimationCancel(Animator animation) {
-    }
-
-    @Override
-    public void onAnimationRepeat(Animator animation) {
-
-    }
-
-    @Override
-    public void onCountDownEnd(CountDownAnimation animation) {
-        if (tvCountDownStartGame != null && tvQuestion != null && layoutAnswer != null) {
-            tvCountDownStartGame.setVisibility(View.GONE);
-            tvQuestion.setVisibility(View.VISIBLE);
-            layoutAnswer.setVisibility(View.VISIBLE);
-        }
-        setFullTimer();
-        startProgressTimer(0);
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (alertDialogResultGame != null && alertDialogResultGame.isShowing()) {
-            alertDialogResultGame.cancel();
-        }
-        super.onDestroy();
-    }
 }

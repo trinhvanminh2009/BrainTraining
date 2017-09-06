@@ -15,6 +15,7 @@ import minh095.braintraining.R;
 import minh095.braintraining.activity.base.BaseActivityWithToolbar;
 import minh095.braintraining.model.database.Game;
 import minh095.braintraining.model.database.User;
+import minh095.braintraining.model.pojo.BalanceQuestion;
 
 public class MainActivity extends BaseActivityWithToolbar {
 
@@ -37,30 +38,30 @@ public class MainActivity extends BaseActivityWithToolbar {
     }
 
     //Init database of realm object
-    private void initRealm()
-    {
+    private void initRealm() {
         Realm.init(this);
         realm = null;
         realm = Realm.getDefaultInstance();
     }
 
-    private void createNewDataForUser()
-    {
+    private void createNewDataForUser() {
 
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                if(realm.where(User.class).count() == 0)
-                {
+                if (realm.where(User.class).count() == 0) {
                     User currentUser = realm.createObject(User.class);
                     currentUser.setUserName("Student");
-                    Game trueFalseGame = realm.createObject(Game.class,"trueFalseGame");
-                    Game quickMathematicsGame = realm.createObject(Game.class,"quickMathematicsGame");
+                    Game trueFalseGame = realm.createObject(Game.class, "trueFalseGame");
+                    Game quickMathematicsGame = realm.createObject(Game.class, "quickMathematicsGame");
+                    Game balanceGame = realm.createObject(Game.class, "balanceGame");
                     trueFalseGame.setBestScore(0);
                     quickMathematicsGame.setBestScore(0);
-                    RealmList<Game>gameRealmList = new RealmList<>();
+                    balanceGame.setBestScore(0);
+                    RealmList<Game> gameRealmList = new RealmList<>();
                     gameRealmList.add(trueFalseGame);
                     gameRealmList.add(quickMathematicsGame);
+                    gameRealmList.add(balanceGame);
                     currentUser.setGameList(gameRealmList);
                 }
             }
@@ -68,7 +69,7 @@ public class MainActivity extends BaseActivityWithToolbar {
 
     }
 
-    @OnClick({R.id.btnGameFreakingMath, R.id.btnGameTrueFalse})
+    @OnClick({R.id.btnGameFreakingMath, R.id.btnGameTrueFalse, R.id.btnGameBalance})
     public void eventClick(View v) {
         Intent nextIntent = null;
         switch (v.getId()) {
@@ -78,6 +79,9 @@ public class MainActivity extends BaseActivityWithToolbar {
                 break;
             case R.id.btnGameTrueFalse:
                 nextIntent = new Intent(this, TrueFalseActivity.class);
+                break;
+            case R.id.btnGameBalance:
+                nextIntent = new Intent(this, BalanceActivity.class);
                 break;
         }
         startActivity(nextIntent);
