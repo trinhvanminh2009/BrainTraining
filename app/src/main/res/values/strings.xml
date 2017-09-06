@@ -21,6 +21,6 @@
     <string name="equal">=</string>
     <string name="lessThan">&lt;</string>
     <string name="greaterThan">&gt;</string>
-    <string name="lessThanOrEqual">&lt;=</string>
-    <string name="greaterThanOrEqual">&gt;=</string>
+    <string name="greaterThanOrEqual">\u2265</string>
+    <string name="lessThanOrEqual">\u2264</string >
 </resources>

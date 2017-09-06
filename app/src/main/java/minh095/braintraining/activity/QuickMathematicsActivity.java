@@ -36,7 +36,7 @@ public class QuickMathematicsActivity extends BaseActivityNoToolbar implements A
     /**
      * currentAnswer to know which value player clicked
      */
-    public static final int TIME_OF_GAME = 10 * 1000;
+    public static final int TIME_OF_GAME = 6 * 1000;
 
     @BindView(R.id.progressTimer)
     ProgressBar progressTimer;
