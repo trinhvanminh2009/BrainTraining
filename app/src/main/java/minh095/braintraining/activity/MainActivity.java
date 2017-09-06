@@ -55,13 +55,16 @@ public class MainActivity extends BaseActivityWithToolbar {
                     Game trueFalseGame = realm.createObject(Game.class, "trueFalseGame");
                     Game quickMathematicsGame = realm.createObject(Game.class, "quickMathematicsGame");
                     Game balanceGame = realm.createObject(Game.class, "balanceGame");
+                    Game colorAndText = realm.createObject(Game.class, "colorAndTextGame");
                     trueFalseGame.setBestScore(0);
                     quickMathematicsGame.setBestScore(0);
                     balanceGame.setBestScore(0);
+                    colorAndText.setBestScore(0);
                     RealmList<Game> gameRealmList = new RealmList<>();
                     gameRealmList.add(trueFalseGame);
                     gameRealmList.add(quickMathematicsGame);
                     gameRealmList.add(balanceGame);
+                    gameRealmList.add(colorAndText);
                     currentUser.setGameList(gameRealmList);
                 }
             }
@@ -69,7 +72,7 @@ public class MainActivity extends BaseActivityWithToolbar {
 
     }
 
-    @OnClick({R.id.btnGameFreakingMath, R.id.btnGameTrueFalse, R.id.btnGameBalance})
+    @OnClick({R.id.btnGameFreakingMath, R.id.btnGameTrueFalse, R.id.btnGameBalance, R.id.btnGameColorWithText})
     public void eventClick(View v) {
         Intent nextIntent = null;
         switch (v.getId()) {
@@ -82,6 +85,9 @@ public class MainActivity extends BaseActivityWithToolbar {
                 break;
             case R.id.btnGameBalance:
                 nextIntent = new Intent(this, BalanceActivity.class);
+                break;
+            case R.id.btnGameColorWithText:
+                nextIntent = new Intent(this, ColorAndTextActivity.class);
                 break;
         }
         startActivity(nextIntent);

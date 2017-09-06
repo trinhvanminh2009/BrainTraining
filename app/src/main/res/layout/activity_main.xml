@@ -101,9 +101,10 @@
                     android:text="@string/tv_game_balance" />
 
                 <Button
+                    android:id="@+id/btnGameColorWithText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/tv_game_quick_math" />
+                    android:text="@string/tv_game_color_with_text" />
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 

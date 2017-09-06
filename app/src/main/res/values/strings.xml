@@ -6,6 +6,7 @@
     <string name="tv_game_true_false">True / False</string>
     <string name="tv_game_quick_math">Quick Math</string>
     <string name="tv_game_balance">Balance</string>
+    <string name="tv_game_color_with_text">Color - Text</string>
     <string name="easy">Easy</string>
     <string name="normal">Normal</string>
     <string name="hard">Hard</string>
