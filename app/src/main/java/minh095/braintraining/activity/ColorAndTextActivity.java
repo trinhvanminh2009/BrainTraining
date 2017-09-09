@@ -242,11 +242,12 @@ public class ColorAndTextActivity extends BaseActivityNoToolbar implements Anima
                 alertDialogResultGame.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             }
         }
-        String question = "Waiting for update";
+
         String wrongAnswer = getString(R.string.your_answer) + !currentQuestion.isTrueOrFalse();
         String correctAnswer = getString(R.string.correct_answer) + currentQuestion.isTrueOrFalse();
 
-        tvQuestionInDialog.setText(question);
+        tvQuestionInDialog.setText(currentQuestion.getColorName());
+        tvQuestionInDialog.setBackgroundColor(Color.parseColor(currentQuestion.getColorCode()));
         tvWrongAnswer.setText(wrongAnswer);
         tvCorrectAnswer.setText(correctAnswer);
         tvScoreInDialog.setText(tvScore.getText().toString());
