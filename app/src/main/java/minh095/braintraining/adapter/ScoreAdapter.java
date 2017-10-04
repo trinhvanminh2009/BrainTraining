@@ -27,6 +27,7 @@ public class ScoreAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View v = layoutInflater.inflate(R.layout.item_score, parent, false);
+        v.setClickable(true);
         return new ScoreViewHolder(v);
     }
 
